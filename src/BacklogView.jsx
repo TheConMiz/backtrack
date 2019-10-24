@@ -3,8 +3,8 @@ import React, { Fragment, useState } from 'react';
 import BacklogItem from './BacklogItem';
 
 import { Typography, Paper, IconButton, Icon, Grid } from '@material-ui/core';
-
-
+import { Button } from '@material-ui/core'; 
+import {Link} from 'react-router-dom'
 import Add from '@material-ui/icons/Add';
 
 
@@ -36,10 +36,8 @@ function BacklogView() {
 
     return (    
         <Fragment>
-            <Typography
-                variant="h4"
-            >
-                Backlog
+            <Typography>
+               <h1>Backlog</h1> 
             </Typography>
 
             <Grid
@@ -55,7 +53,7 @@ function BacklogView() {
                     <Typography
                         variant="h6"
                     >
-                        Product Backlog
+                         Backlog
                     </Typography>
                     {sprintItems.map((item) => {
                         return (
@@ -63,9 +61,14 @@ function BacklogView() {
                         );
                     })}
 
+                <Button component={Link}
+                        to="/pbi">
+                            Add PBI    
+                </Button>
+
                 </Paper>
 
-
+               
 
                 <Paper
                     square="true"

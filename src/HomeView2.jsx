@@ -21,24 +21,14 @@ const useStyles = makeStyles({
       alignItems:"center",
     },
   });
-
-function HomeView() {
+function HomeView2() {
     const classes = useStyles();
     
   
     return (
         <Fragment>
             <h1>Home Page</h1>
-            <Card className={classes.card}>
-                <CardContent>
-                    <Typography color="textSecondary" align="center">Create a New Project</Typography>
-                    </CardContent>
-                    <CardActions>
-                        <Button size="small" component={Link} to="/new_project">
-                            Add New
-                        </Button>
-                    </CardActions>
-            </Card>
+           
             <Card className={classes.card}>
             <CardContent>
                     <Typography color="textSecondary"align="center">
@@ -61,4 +51,4 @@ function HomeView() {
     );
   }
 
-export default HomeView;
+export default HomeView2;

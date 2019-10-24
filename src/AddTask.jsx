@@ -6,20 +6,20 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import clsx from 'clsx';
+import {Link} from 'react-router-dom'
 
 const useStyles = makeStyles({
     card: {
       width: 300,
       height: 500,
-      background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+      background: 'linear-gradient(45deg, #909090 30%, #686868 90%)',
       border: 0,
       borderRadius: 3,
-      boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+      boxShadow: '0 3px 5px 2px rgba(90, 90, 90, .3)',
       display: 'inline-block',
       marginRight: 100,
-      justifyContent: 'center',
-      paddingLeft: 40,
+      alignItems:"center",
+      paddingLeft:40,
     },
   });
   
@@ -70,7 +70,7 @@ function AddTask(){
             <br></br>
             
                 <CardActions>
-                    <Button size="small">Save</Button>
+                    <Button size="small"component={Link} to="/pbi">Save</Button>
                 </CardActions>
                 
 
