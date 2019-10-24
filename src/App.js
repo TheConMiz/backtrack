@@ -1,19 +1,55 @@
-import React, {Fragment, useState} from 'react';
-import HomeView from './HomeView';
-import PBIDetails from './PBIDetails';
+import React, { Fragment, useState } from 'react';
 
-import TextField from '@material-ui/core/TextField';
+import MainPage from './MainPage';
 import NewProject from './NewProject';
-import AddTask from './AddTask';
+import HomeView from './HomeView';
+import ProjectBoard from './ProjectBoard';
+
+
+import {Switch, Route} from 'react-router';
 
 function App() {
     return (
         <Fragment>
-            <HomeView/>
-            <PBIDetails/>
-            <NewProject/>
-            <AddTask/>
+
+            <Switch>
+                <Route
+                    exact
+                    path="/"
+                    render={() =>
+                        <MainPage/>
+                    }
+                />
+
+                <Route
+                    exact
+                    path="/homepage"
+                    render={() => 
+                        <HomeView/>
+                    }
+                />                
+
+                <Route
+                    exact
+                    path="/new_project"
+                    render={() => 
+                        <NewProject/>
+                    }
+                />
+
+                <Route
+                    exact
+                    path="/project_board"
+                    render={() => 
+                        <ProjectBoard/>
+                    }
+                />
+
+                
+            </Switch>
+
         </Fragment>
     );
 }
+
 export default App;

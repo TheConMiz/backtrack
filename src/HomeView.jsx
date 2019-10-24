@@ -6,6 +6,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import { Link } from 'react-router-dom';
+
 const useStyles = makeStyles({
     card: {
       width: 300,
@@ -26,14 +28,16 @@ function HomeView() {
 
   
     return (
-        <div>
+        <Fragment>
             <h1>Home Page</h1>
             <Card className={classes.card}>
                 <CardContent>
                     <Typography color="textSecondary" align="center">Create a New Project</Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small">+Add New</Button>
+                        <Button size="small" component={Link} to="/new_project">
+                            +Add New
+                        </Button>
                     </CardActions>
             </Card>
             <Card className={classes.card}>
@@ -49,11 +53,11 @@ function HomeView() {
                     </Typography>
              </CardContent>
                     <CardActions>
-                        <Button size="small" >Expand</Button>
-                        <Button size="small" >Scrum Board</Button>
+                    {/*<Button size="small" >Expand</Button> */}
+                        <Button size="small" component={Link} to="/project_board">Scrum Board</Button>
               </CardActions>
             </Card>
-        </div>
+        </Fragment>
       
     );
   }
