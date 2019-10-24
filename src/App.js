@@ -5,14 +5,13 @@ import PBIDetails from './PBIDetails';
 import TextField from '@material-ui/core/TextField';
 import NewProject from './NewProject';
 import AddTask from './AddTask';
+import ProjectBoard from './ProjectBoard';
 
 function App() {
     return (
         <Fragment>
-            <HomeView/>
-            <PBIDetails/>
-            <NewProject/>
-            <AddTask/>
+           
+            <ProjectBoard/>
         </Fragment>
     );
 }
