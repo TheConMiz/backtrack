@@ -68,9 +68,12 @@ function AddTask(){
              />
             </form>
             <br></br>
-            <CardActions>
-                <Button size="small">Save</Button>
-            </CardActions>
+            
+                <CardActions>
+                    <Button size="small">Save</Button>
+                </CardActions>
+                
+
             </Card>
         </div>
 

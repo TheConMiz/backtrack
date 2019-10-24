@@ -7,6 +7,10 @@ import {Link} from 'react-router-dom'
 function MainPage() {
     return (
         <Fragment>
+            <Typography variant="h5">
+                Sign In
+            </Typography>
+
             <Button
                 disableFocusRipple
                 variant="outlined"
@@ -14,7 +18,18 @@ function MainPage() {
                 to="/homepage"
             >
                 <Typography variant="h5">
-                    Sign In
+                    Developer
+                </Typography>
+            </Button>
+
+            <Button
+                disableFocusRipple
+                variant="outlined"
+                component={Link}
+                to="/homepage" 
+            >
+                <Typography variant="h5">
+                    Manager
                 </Typography>
             </Button>
             

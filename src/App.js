@@ -7,6 +7,7 @@ import ProjectBoard from './ProjectBoard';
 
 
 import {Switch, Route} from 'react-router';
+import BacklogView from './BacklogView';
 
 function App() {
     return (
@@ -42,6 +43,14 @@ function App() {
                     path="/project_board"
                     render={() => 
                         <ProjectBoard/>
+                    }
+                />
+
+                <Route
+                    exact
+                    path="/backlog_view"
+                    render={() => 
+                        <BacklogView/>
                     }
                 />
 

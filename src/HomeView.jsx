@@ -53,7 +53,7 @@ function HomeView() {
                     </Typography>
              </CardContent>
                     <CardActions>
-                    {/*<Button size="small" >Expand</Button> */}
+                    <Button size="small" component={Link} to="/backlog_view">View Backlog</Button>
                         <Button size="small" component={Link} to="/project_board">Scrum Board</Button>
               </CardActions>
             </Card>
