@@ -1,6 +1,8 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# BackTrack
+BackTrack is collaborative tool for Agile Development using Scrum, and is targeted for use by development teams and management staff.
 
-## Available Scripts
+
+<!-- ## Available Scripts
 
 In the project directory, you can run:
 
@@ -65,4 +67,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 ### `npm run build` fails to minify
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify -->
