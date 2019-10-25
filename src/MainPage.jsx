@@ -10,18 +10,22 @@ function MainPage() {
             <Typography variant="h5">
                 Sign In
             </Typography>
-
+            <br></br>
+            <br></br>
+            <br></br>
             <Button
                 disableFocusRipple
                 variant="outlined"
                 component={Link}
-                to="/homepage"
+                to="/homepage2"
             >
                 <Typography variant="h5">
                     Developer
                 </Typography>
             </Button>
-
+            <br></br>
+            <br></br>
+            <br></br>
             <Button
                 disableFocusRipple
                 variant="outlined"
