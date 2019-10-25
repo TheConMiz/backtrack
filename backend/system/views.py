@@ -23,7 +23,12 @@ def pbiview(request):
     context['pbis'] = pbi
 
     if request.method == "POST":
-      #Get the posted form
+        name=request.POST.get("name", "")
+        desc=request.POST.get("desc", "")
+        pbi_id=len(pbi) +1
+        a = PBI(pbi_id=pbi_id, project_id=5,name=name,desc= desc)
+        a.save()
+        return render(request,template,context)
       
       
 
