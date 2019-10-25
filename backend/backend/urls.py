@@ -22,7 +22,8 @@ from system.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^getjson/',senddata,name='senddata'),
-    url(r'^',mainpage,name='mainpage')
+    # url(r'^',mainpage,name='mainpage'),
+    url(r'^pbiview/',pbiview, name='pbiview')
 ]
 
 

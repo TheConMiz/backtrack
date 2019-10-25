@@ -16,4 +16,17 @@ def mainpage(request):
     return render(request,template)
     
 
+def pbiview(request):
+    context = {}
+    template= 'pbi.html'
+    pbi = PBI.objects.all()
+    context['pbis'] = pbi
+
+    if request.method == "POST":
+      #Get the posted form
+      
+      
+
+    return render(request,template,context)
+
     
