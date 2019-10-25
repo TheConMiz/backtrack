@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import include ,url             
+from system.views import *
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'^getjson/',senddata,name='senddata'),
+    url(r'^',mainpage,name='mainpage')
 ]
+
+

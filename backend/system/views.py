@@ -1,3 +1,19 @@
 from django.shortcuts import render
+from rest_framework import viewsets          # add this
+    #from .serializers import TodoSerializer      # add this
+from .models import *    
+from django.template import loader
+from django.http import JsonResponse
 
-# Create your views here.
+def senddata(request):
+    template='fake.html'
+    bullshitjson={'bull':'shit'}
+    # return render(request,template,bullshitjson)
+    return JsonResponse(bullshitjson)
+
+def mainpage(request):
+    template='src/MainPage.jsx'
+    return render(request,template)
+    
+
+    
