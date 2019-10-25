@@ -13,6 +13,44 @@ import PBIDetails from './PBIDetails';
 import AddTask from './AddTask';
 
 function App() {
+
+    const test = {
+        "Developer": {
+            "e_id": "",
+            "name": "",
+        },
+
+        "PBI": {
+            "pbi_id": "",
+            "project_id": "",
+            "name": "",
+            "desc": ""
+        },
+
+        "Manager": {
+            "e_id": "",
+            "name": "",
+        },
+
+        "Project": {
+            "p_id": "",
+            "owner_id": "",
+            "manager_id": "",
+            "date_created": "",
+            "last_modified": "",
+            "name": "",
+            "desc": "",
+        },
+
+        "Task": {
+            "task_id": "",
+            "pbi_id": "",
+            "name": "",
+            "desc": "",
+            "status": ""
+        }
+    }
+
     return (
         <Fragment>
 
