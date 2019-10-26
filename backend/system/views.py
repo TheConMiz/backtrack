@@ -17,12 +17,11 @@ def pbiview(request):
     if request.method == "POST":
         name=request.POST.get("name", "")
         desc=request.POST.get("desc", "")
-        story_pts=random.randint(1,7)
+        # story_pts=random.randint(1,7)
 
         pbi_id=len(pbi) + 1
-        a = PBI(pbi_id=pbi_id, project_id=5,name=name,desc= desc,story_pts=story_pts)
+        a = PBI(pbi_id=pbi_id, project_id=5,name=name,desc= desc,story_pts=0)
         a.save()
-        #return render(request,template,context)
         return HttpResponseRedirect('/pbiview')   
 
     return render(request,template,context)
