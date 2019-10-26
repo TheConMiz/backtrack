@@ -22,7 +22,8 @@ from system.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     # url(r'^',mainpage,name='mainpage'),
-    url(r'^pbiview/',pbiview, name='pbiview')
+    url(r'^pbiview/',pbiview, name='pbiview'),
+    url(r'^delete/(?P<id>\d+)/$',delete, name='delete'),
 ]
 
 

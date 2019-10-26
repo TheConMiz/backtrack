@@ -7,6 +7,7 @@ class PBI(models.Model):
     project_id = models.IntegerField()
     name = models.CharField(max_length=30)
     desc = models.CharField(max_length=100)
+    story_pts=models.IntegerField()
 
 
 class Developer(models.Model):
@@ -21,8 +22,8 @@ class Manager(models.Model):
 
 class Project(models.Model):
     p_id = models.IntegerField(primary_key=True)
-    owner_id = models.IntegerField(max_length=6)
-    manager_id = models.IntegerField(max_length=6)
+    owner_id = models.IntegerField()
+    manager_id = models.IntegerField()
     date_created = models.DateTimeField()
     last_modified = models.DateTimeField()
     name = models.CharField(max_length=30)
@@ -33,4 +34,4 @@ class Task(models.Model):
     pbi_id = models.IntegerField(PBI)
     name = models.CharField(max_length=30)
     desc = models.CharField(max_length=100)
-    status = models.IntegerField(max_length=1)
+    status = models.IntegerField()
