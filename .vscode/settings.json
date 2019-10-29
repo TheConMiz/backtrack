@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "C:\\Users\\ihand\\AppData\\Local\\Programs\\Python\\Python37\\python.exe"
+    "python.pythonPath": "C:\\Users\\ihand\\.virtualenvs\\backtrack-0-SywxmI\\Scripts\\python.exe",
+    "python.linting.enabled": false
 }
