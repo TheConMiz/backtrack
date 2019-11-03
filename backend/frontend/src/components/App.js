@@ -5,7 +5,6 @@ import { Switch, Route } from 'react-router';
 import MainPage from './MainPage'
 import NewProject from './NewProject';
 import HomeView from './HomeView';
-import HomeView2 from './HomeView2';
 import ProjectBoard from './ProjectBoard';
 import BacklogView from './BacklogView';
 import PBIDetails from './PBIDetails';
@@ -24,17 +23,9 @@ function App() {
             
             <Route
                 exact
-                path="/homepage2"
-                render={() => 
-                    <HomeView/>
-                }
-            />
-
-            <Route
-                exact
                 path="/homepage"
                 render={() => 
-                    <HomeView2/>
+                    <HomeView/>
                 }
             />                   
 

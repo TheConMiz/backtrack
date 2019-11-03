@@ -36,7 +36,7 @@ export default function BacklogView() {
     return (    
         <Fragment>
             <Typography variant="h4">
-                Backlog
+                Product Backlog
             </Typography>
 
             <Grid
@@ -59,27 +59,10 @@ export default function BacklogView() {
                         );
                     })}
 
-                <Button component={Link}
-                        to="/pbi">
-                            Add PBI    
+                <Button component={Link}to="/pbi">
+                    Add PBI
                 </Button>
 
-                </Paper>
-
-                <Paper
-                    square
-                >
-                    <Typography
-                        variant="h6"
-                    >
-                        To-Do
-                    </Typography>
-
-                    {/* {toDoItems.map((item) => {
-                        return (
-                            <BacklogItem />
-                        );
-                    })} */}
                 </Paper>
 
             </Grid>

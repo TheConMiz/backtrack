@@ -7,25 +7,22 @@ import {Link} from 'react-router-dom'
 function MainPage() {
     return (
         <Fragment>
+
             <Typography variant="h5">
                 Sign In
             </Typography>
-            <br></br>
-            <br></br>
-            <br></br>
+            
             <Button
                 disableFocusRipple
                 variant="outlined"
                 component={Link}
-                to="/homepage2"
+                to="/homepage"
             >
                 <Typography variant="h5">
                     Developer
                 </Typography>
             </Button>
-            <br></br>
-            <br></br>
-            <br></br>
+            
             <Button
                 disableFocusRipple
                 variant="outlined"

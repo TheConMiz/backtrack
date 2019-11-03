@@ -16,6 +16,10 @@ function BacklogItem(props) {
             <Card>
             
                 <CardContent>
+
+                    <Typography>
+                        Name: {props.pbiData.name}
+                    </Typography>
             
                     <Typography>
                         Description: {props.pbiData.desc}

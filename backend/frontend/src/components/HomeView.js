@@ -40,7 +40,7 @@ function HomeView() {
                     </CardActions>
             </Card>
             <Card className={classes.card}>
-            <CardContent>
+                <CardContent>
                     <Typography color="textSecondary"align="center">
                         Project Name:         
                     </Typography>
@@ -50,7 +50,7 @@ function HomeView() {
                     <Typography color="textSecondary"align="center">
                         Manager:              
                     </Typography>
-             </CardContent>
+                </CardContent>
                     <CardActions>
                     <Button size="small" component={Link} to="/backlog_view">View Backlog</Button>
                         <Button size="small" component={Link} to="/project_board">Scrum Board</Button>

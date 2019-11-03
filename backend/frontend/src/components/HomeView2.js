@@ -30,7 +30,7 @@ function HomeView2() {
             <h1>Home Page</h1>
            
             <Card className={classes.card}>
-            <CardContent>
+                <CardContent>
                     <Typography color="textSecondary"align="center">
                         Project Name:         
                     </Typography>
@@ -46,6 +46,7 @@ function HomeView2() {
                         <Button size="small" component={Link} to="/project_board">Scrum Board</Button>
               </CardActions>
             </Card>
+            
         </Fragment>
       
     );
