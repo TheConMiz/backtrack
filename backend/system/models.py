@@ -26,7 +26,7 @@ class Project(models.Model):
 
 class Task(models.Model):
     task_id = models.IntegerField(primary_key=True)
-    pbi_id = models.IntegerField(PBI)
+    pbi_id = models.IntegerField()
     name = models.CharField(max_length=30)
     desc = models.CharField(max_length=100)
     status = models.IntegerField()

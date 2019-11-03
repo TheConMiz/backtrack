@@ -21,13 +21,15 @@ function App() {
                     <MainPage/>
                 }
             />
+            
             <Route
-                    exact
-                    path="/homepage2"
-                    render={() => 
-                        <HomeView/>
-                    }
-                />  
+                exact
+                path="/homepage2"
+                render={() => 
+                    <HomeView/>
+                }
+            />
+
             <Route
                 exact
                 path="/homepage"
