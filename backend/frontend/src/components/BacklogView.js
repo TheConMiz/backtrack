@@ -1,43 +1,42 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 
 import BacklogItem from './BacklogItem';
 
-import { Typography, Paper, IconButton, Icon, Grid } from '@material-ui/core';
+import { Typography, Paper, Grid } from '@material-ui/core';
 import { Button } from '@material-ui/core'; 
-import {Link} from 'react-router-dom'
-import Add from '@material-ui/icons/Add';
+import { Link } from 'react-router-dom';
 
+export default function BacklogView() {
+    
+    const [pbis, setPBIs] = useState([]);
 
-{/* <Grid>
-                        <Grid item container>
-                            <Grid item>
-                                <Typography variant="h5">
-                                    Sprint Backlog
-                                </Typography>
-                            </Grid>
-                            <Grid item>
-                                <IconButton size="small">
-                                    <Icon>
-                                        <Add />
-                                    </Icon>
-                                </IconButton>
-                            </Grid>
-                            
-                        </Grid>
-                    </Grid> */}
+    function getPBIs() {
+        fetch("api/pbis/")
 
+            .then(response => {
 
-function BacklogView() {
+                if (response.status != 200) {
+                    console.log("Something went wrong!");
+                }
 
-    const [sprintItems, setSprintItems] = useState([{}, {}])
-    const [toDoItems, setToDoItems] = useState([{}])
+                return response.json()
+            })
 
+            .then(data => {
+                setPBIs(data)
+            });
+    }
 
+    useEffect(() => {
+        
+        getPBIs()
+
+    }, []);
 
     return (    
         <Fragment>
-            <Typography>
-               <h1>Backlog</h1> 
+            <Typography variant="h4">
+                Backlog
             </Typography>
 
             <Grid
@@ -48,16 +47,15 @@ function BacklogView() {
             >
 
                 <Paper
-                    square="true"
+                    square
                 >
-                    <Typography
-                        variant="h6"
-                    >
+                    <Typography variant="h6">
                          Backlog
                     </Typography>
-                    {sprintItems.map((item) => {
+
+                    {pbis.map((item) => {
                         return (
-                            <BacklogItem />
+                            <BacklogItem pbiData={item} key={item.pbi_id}/>
                         );
                     })}
 
@@ -68,10 +66,8 @@ function BacklogView() {
 
                 </Paper>
 
-               
-
                 <Paper
-                    square="true"
+                    square
                 >
                     <Typography
                         variant="h6"
@@ -79,16 +75,14 @@ function BacklogView() {
                         To-Do
                     </Typography>
 
-                    {toDoItems.map((item) => {
+                    {/* {toDoItems.map((item) => {
                         return (
                             <BacklogItem />
                         );
-                    })}
+                    })} */}
                 </Paper>
 
             </Grid>
         </Fragment>
     );
 }
-
-export default BacklogView;

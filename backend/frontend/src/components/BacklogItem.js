@@ -8,16 +8,17 @@ import {Link} from 'react-router-dom'
 import RightArrow from '@material-ui/icons/ArrowRight';
 import Delete from '@material-ui/icons/Delete';
 
-function BacklogItem() {
+function BacklogItem(props) {
+    console.log(props.pbiData)
     return (
         <Fragment>
-
+            
             <Card>
             
                 <CardContent>
             
                     <Typography>
-                        Description:
+                        Description: {props.pbiData.desc}
                     </Typography>
             
                     <IconButton
@@ -32,7 +33,7 @@ function BacklogItem() {
                     </IconButton>
             
                     <Typography>
-                        Priority:
+                        Priority: 
                     </Typography>
             
                     <Typography>

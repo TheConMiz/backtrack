@@ -1,13 +1,7 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import Grid from '@material-ui/core/Grid';
-import { Container } from '@material-ui/core';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Card } from '@material-ui/core';
+
 
 const useStyles = makeStyles({
     card: {
@@ -24,17 +18,16 @@ const useStyles = makeStyles({
     pos: {
       marginBottom: 12,
     },
-  });
+});
 
 
 function ProjectBoard() {
     const classes = useStyles();
-    const bull = <span className={classes.bullet}>•</span>;
+
     return (
         <Fragment>
-
             <h1>Scrum Board</h1>
-            <Container>
+
                 <Grid direction="row" justify="center">
                     <Card>
                     <h2>To Do </h2>
@@ -135,7 +128,6 @@ function ProjectBoard() {
                     </Table>
 
                 </Grid>
-            </Container>
 
         </Fragment>
     );
