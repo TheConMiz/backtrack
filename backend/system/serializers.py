@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from system.models import PBI
+from system.models import *
 
 class PBISerializer(serializers.ModelSerializer):
     class Meta:

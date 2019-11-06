@@ -1,6 +1,6 @@
 from rest_framework import routers
 
-from .api import PBIViewSet
+from .api import *
 
 router = routers.DefaultRouter()
 

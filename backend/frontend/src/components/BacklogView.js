@@ -46,7 +46,7 @@ export default function BacklogView() {
 
     useEffect(() => {
         getPBIs();
-    }, [callMade])
+    }, [])
 
     //TODO: Deleting a PBI is not refreshing the React. Need to fix that 
 
