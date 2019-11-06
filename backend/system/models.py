@@ -31,3 +31,6 @@ class Task(models.Model):
     name = models.CharField(max_length=30)
     desc = models.CharField(max_length=100)
     status = models.IntegerField()
+class Working(models.Model):
+    task_id= models.ForeignKey(Task,on_delete=models.CASCADE)
+    dev_id=models.ForeignKey(Developer,on_delete=models.CASCADE)
