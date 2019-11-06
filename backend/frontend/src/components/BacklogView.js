@@ -10,6 +10,9 @@ export default function BacklogView() {
     
     const [pbis, setPBIs] = useState([]);
 
+    /**
+     * Function for making a GET request for the PBIs
+     */
     function getPBIs() {
         fetch("api/pbis/")
 
