@@ -2,6 +2,10 @@ from system.models import PBI
 from rest_framework import viewsets, permissions
 from .serializers import PBISerializer
 
+# from django.views.decorators.csrf import ensure_csrf_cookie
+
+
+# @ensure_csrf_cookie
 class PBIViewSet(viewsets.ModelViewSet):
 
     queryset = PBI.objects.all()
