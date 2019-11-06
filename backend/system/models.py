@@ -9,7 +9,7 @@ class Manager(models.Model):
     name = models.CharField(max_length=30)
 
 class Project(models.Model):
-    p_id = models.IntegerField(primary_key=True)
+    p_id = models.AutoField(auto_created = True, primary_key = True)
     owner_id = models.ForeignKey(Developer, on_delete=models.CASCADE)
     manager_id = models.ForeignKey(Manager, on_delete=models.CASCADE)
     date_created = models.DateTimeField()
@@ -23,6 +23,7 @@ class PBI(models.Model):
     story_pts = models.IntegerField()
     name = models.CharField(max_length=30)
     desc = models.CharField(max_length=100)
+    priority= models.IntegerField()
 
 class Task(models.Model):
     task_id = models.IntegerField(primary_key=True)
