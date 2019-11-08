@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 
 import BacklogItem from './BacklogItem';
+import PBIDialog from './PBIDialog';
 
 import { Typography, Paper, Grid } from '@material-ui/core';
 import { Button } from '@material-ui/core'; 
@@ -9,6 +10,8 @@ import { Link } from 'react-router-dom';
 export default function BacklogView() {
 
     const [pbis, pbiToState] = useState([]);
+
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     /**
      * Function for making a GET request for the PBIs
@@ -40,18 +43,51 @@ export default function BacklogView() {
         })
             .then(response => response)
             .then(response => console.log(response))
-            .then(response => getPBIs());
+            .then(response => getPBIs());   
     }
+
+    function editPBI(pbiData) {
+        // console.log("mlem")
+        fetch("api/pbis/" + pbiData.pbi_id + "/", {
+            method: "POST",
+
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(pbiData)
+        })
+            
+            .then(response=> response)
+            .then(response=> console.log(response))
+    }
+
+    function addPBI(newPBIData) {
+        fetch("api/pbis/", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newPBIData)
+        })
+
+            .then(response => response)
+            .then(response=> console.log(response))
+    }
+
 
     /**
      * React Lifecycle hook for getting PBIs prior to rendering the page
      */
     useEffect(() => {
         getPBIs();
-    }, [])
+    }, []);
 
     return (    
         <Fragment>
+
+           
             
             <Typography variant="h4">
                 Product Backlog
@@ -76,13 +112,18 @@ export default function BacklogView() {
                             <BacklogItem
                                 pbiData={item} key={item.pbi_id}
                                 deletePBI={deletePBI}
+                                editPBI={editPBI}
                             />
                         );
                     })}
 
-                <Button component={Link}to="/pbi">
-                    Add PBI
-                </Button>
+                    <Button onClick={() => {
+                        setDialogOpen(true)
+                    }}>
+                        Add PBI
+                    </Button>
+
+
 
                 </Paper>
 

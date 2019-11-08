@@ -66,6 +66,9 @@ function BacklogItem(props) {
                         size="small"
                         component={Link}
                         to="/pbi"
+                        onClick={() => {
+                            props.editPBI(props.pbiData)
+                        }}
                     >
                         <Icon>
                             <Edit/>
