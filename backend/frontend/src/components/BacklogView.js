@@ -43,12 +43,12 @@ export default function BacklogView() {
             .then(response => getPBIs());
     }
 
-
+    /**
+     * React Lifecycle hook for getting PBIs prior to rendering the page
+     */
     useEffect(() => {
         getPBIs();
     }, [])
-
-    //TODO: Deleting a PBI is not refreshing the React. Need to fix that 
 
     return (    
         <Fragment>

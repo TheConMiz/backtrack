@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 
-import { Card, CardContent, Typography, IconButton, Icon, Grid } from '@material-ui/core';
+import { Card, CardContent, Typography, IconButton, Icon, Grid, TextField } from '@material-ui/core';
 
 import Edit from '@material-ui/icons/Edit'
 import {Link} from 'react-router-dom'
@@ -16,37 +16,38 @@ function BacklogItem(props) {
             <Card>
             
                 <CardContent>
+                    
+                    <TextField
+                        label="Name"
+                        // value={props.pbiData.name}
+                        disabled
+                    />
+                    
+                    <TextField
+                        label="Description"
+                        // value={props.pbiData.desc}
+                        disabled
+                    />
+            
 
-                    <Typography>
-                        Name: {props.pbiData.name}
-                    </Typography>
             
-                    <Typography>
-                        Description: {props.pbiData.desc}
-                    </Typography>
+                    <TextField
+                        label="Priority"
+                        // value={props.pbiData.desc}
+                        disabled
+                    />
             
-                    <IconButton
-                        disableFocusRipple
-                        size="small"
-                        component={Link}
-                        to="/pbi"
-                    >
-                        <Icon>
-                            <Edit/>
-                        </Icon>
-                    </IconButton>
+                    <TextField
+                        label="Status"
+                        // value={props.pbiData.desc}
+                        disabled
+                    />
             
-                    <Typography>
-                        Priority: 
-                    </Typography>
-            
-                    <Typography>
-                        Status:
-                    </Typography>
-            
-                    <Typography>
-                        PBI:
-                    </Typography>
+                    <TextField
+                        label="PBI"
+                        // value={props.pbiData.desc}
+                        disabled
+                    />
             
                     <IconButton
                         size="small"
@@ -61,15 +62,26 @@ function BacklogItem(props) {
                     </IconButton>
 
                     <IconButton
-                        size="small" 
                         disableFocusRipple
-                        
+                        size="small"
+                        component={Link}
+                        to="/pbi"
                     >
                         <Icon>
-                            {/**If in the sprint backlog, right arrow. else, left arrow */}
-                            <RightArrow />
+                            <Edit/>
                         </Icon>
                     </IconButton>
+
+                    {/* <IconButton
+                        size="small" 
+                        disableFocusRipple
+                    >
+                        <Icon>
+                            
+                            <RightArrow />
+                        </Icon>
+                    </IconButton> */}
+
                 </CardContent>
             </Card>
         </Fragment>
