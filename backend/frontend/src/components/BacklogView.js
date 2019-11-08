@@ -7,8 +7,8 @@ import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 export default function BacklogView() {
-    
-    const [pbis, setPBIs] = useState([]);
+
+    const [pbis, pbiToState] = useState([]);
 
     /**
      * Function for making a GET request for the PBIs
@@ -26,18 +26,33 @@ export default function BacklogView() {
             })
 
             .then(data => {
-                setPBIs(data)
+                pbiToState(data);
             });
     }
 
-    useEffect(() => {
-        
-        getPBIs()
+    /**
+     * Function for deleting a given PBI. Passed as props to each BacklogItem
+     */
+    function deletePBI(pbiID) {
+        fetch("api/pbis/" + pbiID, {
+            method: "DELETE",
+            cache: "no-cache",
+        })
+            .then(response => response)
+            .then(response => console.log(response))
+            .then(response => getPBIs());
+    }
 
-    }, []);
+
+    useEffect(() => {
+        getPBIs();
+    }, [])
+
+    //TODO: Deleting a PBI is not refreshing the React. Need to fix that 
 
     return (    
         <Fragment>
+            
             <Typography variant="h4">
                 Product Backlog
             </Typography>
@@ -58,7 +73,10 @@ export default function BacklogView() {
 
                     {pbis.map((item) => {
                         return (
-                            <BacklogItem pbiData={item} key={item.pbi_id}/>
+                            <BacklogItem
+                                pbiData={item} key={item.pbi_id}
+                                deletePBI={deletePBI}
+                            />
                         );
                     })}
 

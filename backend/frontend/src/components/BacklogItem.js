@@ -9,7 +9,7 @@ import RightArrow from '@material-ui/icons/ArrowRight';
 import Delete from '@material-ui/icons/Delete';
 
 function BacklogItem(props) {
-    console.log(props.pbiData)
+
     return (
         <Fragment>
             
@@ -51,7 +51,9 @@ function BacklogItem(props) {
                     <IconButton
                         size="small"
                         disableFocusRipple
-                      
+                        onClick={() => {
+                            props.deletePBI(props.pbiData.pbi_id)
+                        }}
                     >
                         <Icon>
                             <Delete />
