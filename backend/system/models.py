@@ -31,6 +31,9 @@ class Task(models.Model):
     name = models.CharField(max_length=30)
     desc = models.CharField(max_length=100)
     status = models.IntegerField()
+
+    # ADDED FIELD TO DEAL WITH SPRINT BOARD
+    priority = models.IntegerField(default=task_id)
     
 class Working(models.Model):
     task_id= models.ForeignKey(Task,on_delete=models.CASCADE)

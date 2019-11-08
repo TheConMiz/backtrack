@@ -14,6 +14,7 @@ function ProjectItem(props) {
     const [currentName, setName] = useState(props.projectData.name);
     const [currentDesc, setDesc] = useState(props.projectData.desc);
     const [currentManager, setManager] = useState(props.projectData.manager_id);
+
     return (
         <Fragment>
             
@@ -43,6 +44,8 @@ function ProjectItem(props) {
                             <Grid item>
                              <TextField
                                 label="Owner"
+                            disabled
+                            type="number"
                                 value={props.projectData.owner_id}
                                
                             />
@@ -50,6 +53,7 @@ function ProjectItem(props) {
                             <Grid item>
                              <TextField
                                 label="Manager"
+                                type="number"
                                 value={currentManager}
                                 disabled={!editable}
                                 onChange={(event) => {

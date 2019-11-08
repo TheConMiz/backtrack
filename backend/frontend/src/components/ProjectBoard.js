@@ -1,49 +1,13 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Card, Typography, Paper, Button } from '@material-ui/core';
-import BacklogItem from './BacklogItem';
+import { Grid, Typography, Paper, Button } from '@material-ui/core';
 
-const useStyles = makeStyles({
-    card: {
-      minWidth: 275,
-    },
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
-    },
-    title: {
-      fontSize: 14,
-    },
-    pos: {
-      marginBottom: 12,
-    },
-});
-
+import ProjectBoardItem from './ProjectBoardItem';
 
 export default function ProjectBoard() {
-    const [pbis, pbiToState] = useState([])
-    const [tasks, taskToState] = useState([])
-    const [todo, todoState] = useState([])
-    function getPBIs() {
-        fetch("api/pbis/")
-
-            .then(response => {
-
-                if (response.status != 200) {
-                    console.log("Something went wrong!");
-                }
-
-                return response.json()
-            })
-
-            .then(data => {
-                pbiToState(data);
-            });
-    }
-
     
-    
+    const [tasks, taskToState] = useState([]);
+
+
     function getTasks() {
         fetch("api/tasks/")
 
@@ -56,49 +20,31 @@ export default function ProjectBoard() {
                 return response.json()
             })
 
-            .then(data => {
-                taskToState(data);
-                
-            });
-            
-           
-    }
-
-    function getTodo() {
-        fetch("api/tasks/")
-
             .then(response => {
-
-                if (response.status != 200) {
-                    console.log("Something went wrong!");
-                }
-                var temp= response.json()
-                temp = temp.filter(function(i) {
-                    return i.status==1;
-                });
-                JSON.stringify(temp);
-                return temp;
-                console.log(temp);
-                
-            })
-
-            .then(data => {
-                todoState(data);
-                
-            });
-            
-           
+                taskToState(response);
+            });      
     }
 
+    function setStatus(newTask) {
+        fetch("api/tasks/" + newTask.task_id + "/", {
+            method: "PATCH",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newTask)
+        })
+            
+            .then(response=> response)
+            .then(response => console.log(response))
+            .then(response => getTasks())
+    }
 
     useEffect(() => {
-        getPBIs();
         getTasks();
-    
-       
     }, []);
 
-    const classes = useStyles();
+    console.log(tasks)
 
     return (
         <Fragment>
@@ -108,149 +54,116 @@ export default function ProjectBoard() {
                 justify="space-around"
                 alignItems="flex-start"
             >
+                
                 <Grid item>
                     <Paper
                         square
                     >
-                        <Typography variant="h5">
-                            To-Do
-                        </Typography>
-                        <br></br>
-                        
-                        <Paper>
-                        {tasks.map((taskitem) => {
-                            if(taskitem.status==1)
-                            return (
-                                <Grid item>
-                                <Paper>
-                                  <Typography>Task Name: {taskitem.name}
-                                  </Typography>
-                                  <Typography>Description: {taskitem.desc}
-                                  </Typography>
-                                  <Typography>Status: {taskitem.status}
-                                  </Typography>
-                                  <Typography>PBI ID: {taskitem.pbi_id}
-                                  </Typography>
-                                 
-                                </Paper>
-                                                    
-                                </Grid>
+                        <Grid container direction="column" justify="space-evenly">
+                            
+                            <Grid item>
+                                <Typography variant="h5">
+                                    To-Do
+                                </Typography>
+                            </Grid>
 
-                            );
-                    })}
-            
+                            {tasks.map((item, index) => {
+
+                                if (item.status === 1) {
+                                    return (
+                                        <Grid item>
+                                            <ProjectBoardItem taskData={item} setStatus={setStatus}/>
+                                        </Grid>
+                                    
+                                    );
+                                }
                                 
-
-                  
-                     </Paper>
+                            })}
+                            
+                        </Grid>
                     </Paper>
                 </Grid>
 
                 <Grid item>
-
-                <Paper
+                    <Paper
                         square
                     >
-                        <Typography variant="h5">
-                           In Progress
-                        </Typography>
-                        <br></br>
-                        
-                        <Paper>
-                        {tasks.map((taskitem) => {
-                            if(taskitem.status==2)
-                            return (
-                                <Grid item>
-                                  <Paper>
-                                  <Typography>Task Name: {taskitem.name}
-                                  </Typography>
-                                  <Typography>Description: {taskitem.desc}
-                                  </Typography>
-                                  <Typography>Status: {taskitem.status}
-                                  </Typography>
-                                  <Typography>PBI ID: {taskitem.pbi_id}
-                                  </Typography>
-                                </Paper>
+                        <Grid container direction="column" justify="space-evenly" spacing={2}>
 
-                                </Grid>
+                            <Grid item>
+                                <Typography variant="h5">
+                                    In Progress
+                                </Typography>
+                            </Grid>
 
-                            );
-                    })}
-                        </Paper>
+                            {tasks.map((item, index) => {
 
-                    </Paper>
-                    </Grid>
-
-                <Grid item>
-                <Paper
-                        square
-                    >
-                        <Typography variant="h5">
-                           Under Review
-                        </Typography>
-                        <br></br>
-                        
-                        <Paper>
-                        {tasks.map((taskitem) => {
-                            if(taskitem.status==3)
-                            return (
-                                <Grid item>
-                                  <Paper>
-                                  <Typography>Task Name: {taskitem.name}
-                                  </Typography>
-                                  <Typography>Description: {taskitem.desc}
-                                  </Typography>
-                                  <Typography>Status: {taskitem.status}
-                                  </Typography>
-                                  <Typography>PBI ID: {taskitem.pbi_id}
-                                  </Typography>
-                                </Paper>
-                                                    
-                                </Grid>
-
-                            );
-                    })}
-                        </Paper>
-
+                                if (item.status === 2) {
+                                    return (
+                                        <Grid item>
+                                            <ProjectBoardItem taskData={item} setStatus={setStatus}/>
+                                        </Grid>
+                                    
+                                    );
+                                }
+                                
+                            })}
+                            
+                        </Grid>
                     </Paper>
                 </Grid>
 
                 <Grid item>
-                <Paper
+                    <Paper
                         square
                     >
-                        <Typography variant="h5">
-                          Completed
-                        </Typography>
-                        <br></br>
-                        
-                        <Paper>
-                        {tasks.map((taskitem) => {
-                            if(taskitem.status==4)
-                            return (
-                                <Grid item>
-                                 <Paper>
-                                  <Typography>Task Name: {taskitem.name}
-                                  </Typography>
-                                  <Typography>Description: {taskitem.desc}
-                                  </Typography>
-                                  <Typography>Status: {taskitem.status}
-                                  </Typography>
-                                  <Typography>PBI ID: {taskitem.pbi_id}
-                                  </Typography>
-                                </Paper>
-                                                    
-                                </Grid>
+                        <Grid container direction="column" justify="space-evenly" spacing={2}>
+                            <Typography variant="h5">
+                                Under Review
+                            </Typography>
 
-                            );
-                    })}
-                        </Paper>
+                            {tasks.map((item, index) => {
 
+                                if (item.status === 3) {
+                                    return (
+                                        <Grid item>
+                                            <ProjectBoardItem taskData={item} setStatus={setStatus}/>
+                                        </Grid>
+                                    
+                                    );
+                                }
+                                
+                            })}
+                            
+                        </Grid>
                     </Paper>
-                    
                 </Grid>
 
-               
+                <Grid item>
+                    <Paper
+                        square
+                    >
+                        <Grid container direction="column" justify="space-evenly" spacing={2}>
+                            <Typography variant="h5">
+                                Completed
+                            </Typography>
+
+                            {tasks.map((item, index) => {
+
+                                if (item.status === 4) {
+                                    return (
+                                        <Grid item>
+                                            <ProjectBoardItem taskData={item} setStatus={setStatus}/>
+                                        </Grid>
+                                    
+                                    );
+                                }
+                                
+                            })}
+                            
+                        </Grid>
+                    </Paper>
+                </Grid>
 
             </Grid>
         </Fragment>

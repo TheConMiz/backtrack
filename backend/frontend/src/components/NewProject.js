@@ -16,7 +16,8 @@ class NewProject extends React.Component {
             owner:'',
             manager:'',
         };
-      }
+    }
+    
     render() {
         function addProject(newProjectData) {
             fetch("api/project/", {

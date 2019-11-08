@@ -2,10 +2,7 @@ import React, { Fragment, useState } from 'react';
 
 import { Card, CardContent, Typography, IconButton, Icon, Grid, TextField, Button } from '@material-ui/core';
 
-import Edit from '@material-ui/icons/Edit'
-import {Link} from 'react-router-dom'
-
-import RightArrow from '@material-ui/icons/ArrowRight';
+import Edit from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
 
 function BacklogItem(props) {
