@@ -11,8 +11,6 @@ export default function BacklogView() {
 
     const [pbis, pbiToState] = useState([]);
 
-    const [dialogOpen, setDialogOpen] = useState(false);
-
     /**
      * Function for making a GET request for the PBIs
      */
@@ -46,10 +44,13 @@ export default function BacklogView() {
             .then(response => getPBIs());   
     }
 
+    /**
+     * Function 
+     */
     function editPBI(pbiData) {
         // console.log("mlem")
         fetch("api/pbis/" + pbiData.pbi_id + "/", {
-            method: "POST",
+            method: "PATCH",
 
             headers: {
                 "Accept": "application/json",
@@ -59,7 +60,9 @@ export default function BacklogView() {
         })
             
             .then(response=> response)
-            .then(response=> console.log(response))
+            .then(response => console.log(response))
+            .then(response => getPBIs())
+        
     }
 
     function addPBI(newPBIData) {
@@ -73,7 +76,8 @@ export default function BacklogView() {
         })
 
             .then(response => response)
-            .then(response=> console.log(response))
+            .then(response => console.log(response))
+            .then(response => getPBIs())
     }
 
 
@@ -87,10 +91,8 @@ export default function BacklogView() {
     return (    
         <Fragment>
 
-           
-            
             <Typography variant="h4">
-                Product Backlog
+                Sprint Backlog
             </Typography>
 
             <Grid
@@ -107,18 +109,25 @@ export default function BacklogView() {
                          Backlog
                     </Typography>
 
+                    <Grid direction="column" spacing={4}>
+
+                    </Grid>
+
                     {pbis.map((item) => {
                         return (
-                            <BacklogItem
-                                pbiData={item} key={item.pbi_id}
-                                deletePBI={deletePBI}
-                                editPBI={editPBI}
-                            />
+                            <Grid item>
+                                <BacklogItem
+                                    pbiData={item} key={item.pbi_id}
+                                    deletePBI={deletePBI}
+                                    editPBI={editPBI}
+                                />
+                            </Grid>
+                            
                         );
                     })}
 
                     <Button onClick={() => {
-                        setDialogOpen(true)
+
                     }}>
                         Add PBI
                     </Button>
