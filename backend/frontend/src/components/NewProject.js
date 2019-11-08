@@ -10,6 +10,24 @@ import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
 
 
+function postProject(name, desc, owner, manager) {
+    return fetch('api/project', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "p_id" : "123", 
+        "owner_id" : owner,
+        "manager_id" : manager, 
+        "date_created" : "",
+        "last_modified" : "",
+        "name" : name,
+        "desc" : desc,
+      })
+    }).then((response) => response.json())
+  }
+  
 
 const useStyles = makeStyles({
     card: {
@@ -36,7 +54,7 @@ function NewProject(){
             <TextField
                 id="project-name"
                 label="Project Name"
-               // onChange={handleChange('name')}
+               //onChange={handleNamecChange}
                 margin="normal"
              />
              <br></br>
@@ -71,6 +89,7 @@ function NewProject(){
             <br></br>
             <TextField
                 id="project-add-member"
+              
                 label="Add Project Member"
                // onChange={handleChange('name')}
                 margin="normal"
@@ -79,11 +98,11 @@ function NewProject(){
             </form>
             <br></br>
             <CardActions>
-                <Button size="small" component={Link} to="/homepage">Save</Button>
+                <Button size="small" component={Link} to="/homepage">Submit</Button>
             </CardActions>
             </Card>
         </div>
-
+//postProject(this.refs.name.value, this.refs.desc.value, this.refs.owner.value, this.refs.manager.value)
     );
 }
 

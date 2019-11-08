@@ -1,64 +1,84 @@
-import React, { Fragment, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Card } from '@material-ui/core';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import React, { Fragment, useState, useEffect } from 'react';
 
+import ProjectItem from './ProjectItem';
+
+import { Typography, Paper, Grid } from '@material-ui/core';
+import { Button } from '@material-ui/core'; 
 import { Link } from 'react-router-dom';
 
-const useStyles = makeStyles({
-    card: {
-      width: 300,
-      height: 250,
-      background: 'linear-gradient(45deg, #909090 30%, #686868 90%)',
-      border: 0,
-      borderRadius: 3,
-      boxShadow: '0 3px 5px 2px rgba(90, 90, 90, .3)',
-      display: 'inline-block',
-      marginRight: 100,
-      alignItems:"center",
-    },
-  });
 
-function HomeView() {
-    const classes = useStyles();
+export default function BacklogView() {
     
-  
-    return (
-        <Fragment>
-            <h1>Home Page</h1>
-            <Card className={classes.card}>
-                <CardContent>
-                    <Typography color="textSecondary" align="center">Create a New Project</Typography>
-                    </CardContent>
-                    <CardActions>
-                        <Button size="small" component={Link} to="/new_project">
-                            Add New
-                        </Button>
-                    </CardActions>
-            </Card>
-            <Card className={classes.card}>
-                <CardContent>
-                    <Typography color="textSecondary"align="center">
-                        Project Name:         
-                    </Typography>
-                    <Typography color="textSecondary"align="center">
-                        Description:              
-                    </Typography>
-                    <Typography color="textSecondary"align="center">
-                        Manager:              
-                    </Typography>
-                </CardContent>
-                    <CardActions>
-                    <Button size="small" component={Link} to="/backlog_view">View Backlog</Button>
-                        <Button size="small" component={Link} to="/project_board">Scrum Board</Button>
-              </CardActions>
-            </Card>
-        </Fragment>
-      
-    );
-  }
+    const [pbis, setPBIs] = useState([]);
 
-export default HomeView;
+    /**
+     * Function for making a GET request for the PBIs
+     */
+    function getPBIs() {
+        fetch("api/project/")
+
+            .then(response => {
+
+                if (response.status != 200) {
+                    console.log("Something went wrong!");
+                }
+               
+                return response.json()
+                
+            })
+
+            .then(data => {
+               // console.log(data)
+                setPBIs(data)
+            });
+    }
+
+    useEffect(() => {
+        
+        getPBIs()
+
+    }, []);
+
+    return (    
+        <Fragment>
+            <Typography variant="h4" align="center">
+                Home Page
+            </Typography>
+            <br></br><br></br>
+
+
+            <Grid
+                container
+                direction="row"
+                justify="space-evenly"
+                alignItems="flex-start"
+            >
+
+                <Paper>
+                      <Typography variant="h6" align="center">
+                        Projects
+                    </Typography>
+
+
+                    {pbis.map((item) => {
+                        return (
+                            <Fragment>
+                                <ProjectItem projectData={item} key={item.p_id}/>
+                                <Button size="small" component={Link} to="/backlog_view">View Backlog</Button>
+                                <Button size="small" component={Link} to="/project_board">Scrum Board</Button>
+                            </Fragment>
+                        );
+                        
+                    })}
+                    <br></br>
+                    <br></br>
+                     <Button size="small" component={Link} to="/new_project">Add New Project</Button>
+
+                    
+
+                </Paper>
+
+            </Grid>
+        </Fragment>
+    );
+}
