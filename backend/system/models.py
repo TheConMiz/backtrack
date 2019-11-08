@@ -18,7 +18,7 @@ class Project(models.Model):
     desc = models.CharField(max_length=100)
 
 class PBI(models.Model):
-    pbi_id = models.IntegerField(primary_key=True)
+    pbi_id = models.AutoField(auto_created=True, primary_key=True)
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     story_pts = models.IntegerField()
     name = models.CharField(max_length=30)
@@ -34,4 +34,14 @@ class Task(models.Model):
     
 class Working(models.Model):
     task_id= models.ForeignKey(Task,on_delete=models.CASCADE)
-    dev_id=models.ForeignKey(Developer,on_delete=models.CASCADE)
+    dev_id = models.ForeignKey(Developer, on_delete=models.CASCADE)
+    
+
+# class Sprint(models.Model):
+#     sprint_id = models.IntegerField()
+#     pbi_id = models.ForeignKey(PBI, on_delete=models.CASCADE)
+#     task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
+#     tsp = models.IntegerField()
+#     #tsp=total story points
+#     csp = models.IntegerField()
+#     #completed story points

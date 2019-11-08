@@ -20,8 +20,6 @@ function BacklogItem(props) {
     const [currentCost, setCost] = useState(props.pbiData.story_pts);
     // const [currentStatus, setStatus] = useState(props.pbiData.story_pts);
 
-
-    console.log(props.pbiData)
     // TODO: DO PRIORITY SORTING
     return (
         <Fragment>
@@ -44,27 +42,18 @@ function BacklogItem(props) {
                             />
                         </Grid>
 
-                        <Grid item container direction="row" spacing={2}>
-                            <Grid item>
-                                <TextField
-                                    label="Estimated Cost"
-                                    type="number"
-                                    value={currentCost}
-                                    disabled={!editable}
+                        <Grid item>
+                            <TextField
+                                label="Estimated Cost"
+                                type="number"
+                                value={currentCost}
+                                disabled={!editable}
 
-                                    onChange={(event) => {
-                                        setCost(event.target.value)
-                                    }}
-                                />
-                            </Grid>
-
-                            <Grid item>
-                                <TextField
-                                    label="Status"
-                                    value={props.pbiData.desc}
-                                    disabled={!editable}
-                                />
-                            </Grid>
+                                onChange={(event) => {
+                                    setCost(event.target.value)
+                                }}
+                            />
+                            
                         </Grid>
 
                         <Grid item>

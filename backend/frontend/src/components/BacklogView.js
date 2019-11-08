@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 
 import BacklogItem from './BacklogItem';
-import PBIDialog from './PBIDialog';
+import BacklogDialog from './BacklogDialog';
 
 import { Typography, Paper, Grid } from '@material-ui/core';
 import { Button } from '@material-ui/core'; 
@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 export default function BacklogView() {
 
     const [pbis, pbiToState] = useState([]);
+    const [pbiDialog, setPBIDialog] = useState(false);
 
     /**
      * Function for making a GET request for the PBIs
@@ -45,7 +46,7 @@ export default function BacklogView() {
     }
 
     /**
-     * Function 
+     * Function for editing existing PBIs
      */
     function editPBI(pbiData) {
         // console.log("mlem")
@@ -65,6 +66,9 @@ export default function BacklogView() {
         
     }
 
+    /**
+     * Function for creating new PBI and adding it to the database
+     */
     function addPBI(newPBIData) {
         fetch("api/pbis/", {
             method: "POST",
@@ -91,6 +95,8 @@ export default function BacklogView() {
     return (    
         <Fragment>
 
+            <BacklogDialog openDialog={pbiDialog} setDialog={setPBIDialog} addPBI={addPBI}/>
+
             <Typography variant="h4">
                 Sprint Backlog
             </Typography>
@@ -109,15 +115,12 @@ export default function BacklogView() {
                          Backlog
                     </Typography>
 
-                    <Grid direction="column" spacing={4}>
-
-                    </Grid>
-
                     {pbis.map((item) => {
                         return (
                             <Grid item>
                                 <BacklogItem
-                                    pbiData={item} key={item.pbi_id}
+                                    pbiData={item}
+                                    key={item.pbi_id}
                                     deletePBI={deletePBI}
                                     editPBI={editPBI}
                                 />
@@ -126,10 +129,13 @@ export default function BacklogView() {
                         );
                     })}
 
-                    <Button onClick={() => {
-
-                    }}>
-                        Add PBI
+                    <Button
+                        onClick={() => {
+                            setPBIDialog(true);
+                        }}
+                        disableFocusRipple
+                    >
+                        Add a PBI
                     </Button>
 
 

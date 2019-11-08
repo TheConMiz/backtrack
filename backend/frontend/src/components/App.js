@@ -7,7 +7,6 @@ import NewProject from './NewProject';
 import HomeView from './HomeView';
 import ProjectBoard from './ProjectBoard';
 import BacklogView from './BacklogView';
-import PBIDetails from './PBIDetails';
 import AddTask from './AddTask';
 
 function App() {
@@ -50,14 +49,6 @@ function App() {
                 path="/backlog_view"
                 render={() => 
                     <BacklogView/>
-                }
-            />
-
-            <Route
-                exact
-                path="/pbi"
-                render={() => 
-                    <PBIDetails/>
                 }
             />
 
