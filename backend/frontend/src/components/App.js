@@ -9,6 +9,7 @@ import ProjectBoard from './ProjectBoard';
 import BacklogView from './BacklogView';
 import AddTask from './AddTask';
 
+
 function App() {
     return (
         <Switch>
@@ -35,7 +36,7 @@ function App() {
                     <NewProject/>
                 }
             />
-
+            
             <Route
                 exact
                 path="/project_board"
@@ -59,6 +60,7 @@ function App() {
                     <AddTask/>
                 }
             />
+            
 
         </Switch>
     );

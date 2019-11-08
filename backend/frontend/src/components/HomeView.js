@@ -9,12 +9,12 @@ import { Link } from 'react-router-dom';
 
 export default function BacklogView() {
     
-    const [pbis, setPBIs] = useState([]);
+    const [projects, setProjects] = useState([]);
 
     /**
      * Function for making a GET request for the PBIs
      */
-    function getPBIs() {
+    function getProjects() {
         fetch("api/project/")
 
             .then(response => {
@@ -29,13 +29,30 @@ export default function BacklogView() {
 
             .then(data => {
                // console.log(data)
-                setPBIs(data)
+                setProjects(data)
             });
+    }
+    function editProject(projectData) {
+        // console.log("mlem")
+        fetch("api/project/" + projectData.p_id + "/", {
+            method: "PATCH",
+
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(projectData)
+        })
+            
+            .then(response=> response)
+            .then(response => console.log(response))
+            .then(response => getProjects())
+        
     }
 
     useEffect(() => {
         
-        getPBIs()
+        getProjects()
 
     }, []);
 
@@ -60,10 +77,12 @@ export default function BacklogView() {
                     </Typography>
 
 
-                    {pbis.map((item) => {
+                    {projects.map((item) => {
                         return (
                             <Fragment>
-                                <ProjectItem projectData={item} key={item.p_id}/>
+                                <ProjectItem projectData={item} key={item.p_id}
+                                    editProject={editProject}
+                                />
                                 <Button size="small" component={Link} to="/backlog_view">View Backlog</Button>
                                 <Button size="small" component={Link} to="/project_board">Scrum Board</Button>
                             </Fragment>
@@ -73,8 +92,6 @@ export default function BacklogView() {
                     <br></br>
                     <br></br>
                      <Button size="small" component={Link} to="/new_project">Add New Project</Button>
-
-                    
 
                 </Paper>
 

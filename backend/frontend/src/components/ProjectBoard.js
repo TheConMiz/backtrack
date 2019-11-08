@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Card, Typography, Paper } from '@material-ui/core';
-
+import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Card, Typography, Paper, Button } from '@material-ui/core';
+import BacklogItem from './BacklogItem';
 
 const useStyles = makeStyles({
     card: {
@@ -21,117 +21,84 @@ const useStyles = makeStyles({
 });
 
 
-function ProjectBoard() {
+export default function ProjectBoard() {
+    const [pbis, pbiToState] = useState([])
+    const [tasks, taskToState] = useState([])
+    const [todo, todoState] = useState([])
+    function getPBIs() {
+        fetch("api/pbis/")
+
+            .then(response => {
+
+                if (response.status != 200) {
+                    console.log("Something went wrong!");
+                }
+
+                return response.json()
+            })
+
+            .then(data => {
+                pbiToState(data);
+            });
+    }
+
+    
+    
+    function getTasks() {
+        fetch("api/tasks/")
+
+            .then(response => {
+
+                if (response.status != 200) {
+                    console.log("Something went wrong!");
+                }
+
+                return response.json()
+            })
+
+            .then(data => {
+                taskToState(data);
+                
+            });
+            
+           
+    }
+
+    function getTodo() {
+        fetch("api/tasks/")
+
+            .then(response => {
+
+                if (response.status != 200) {
+                    console.log("Something went wrong!");
+                }
+                var temp= response.json()
+                temp = temp.filter(function(i) {
+                    return i.status==1;
+                });
+                JSON.stringify(temp);
+                return temp;
+                console.log(temp);
+                
+            })
+
+            .then(data => {
+                todoState(data);
+                
+            });
+            
+           
+    }
+
+
+    useEffect(() => {
+        getPBIs();
+        getTasks();
+    
+       
+    }, []);
 
     const classes = useStyles();
-
-    // return (
-    //     <Fragment>
-    //         <h1>Scrum Board</h1>
-
-    //             <Grid container direction="row" justify="center">
-    //                 <Card>
-    //                 <h2>To Do </h2>
-    //                 </Card>
-    //                 <Table>
-    //                 <TableHead>
-    //                 <TableRow>
-    //                     <TableCell><Card>PBI 1</Card></TableCell>
-    //                 </TableRow>
-    //                 </TableHead>
-    //                 <TableBody>
-    //                     <TableRow>
-    //                         <TableCell>Task #1</TableCell>
-    //                     </TableRow>
-    //                     <TableRow>
-    //                     <TableCell>Task #2</TableCell>
-    //                     </TableRow>
-    //                 </TableBody>
-    //                 </Table>
-    //                 <Table>
-    //                 <TableHead>
-    //                 <TableRow>
-    //                     <TableCell><Card>PBI 2</Card></TableCell>
-    //                 </TableRow>
-    //                 </TableHead>
-    //                 <TableBody>
-    //                     <TableRow>
-    //                         <TableCell>Task #1</TableCell>
-    //                     </TableRow>
-    //                     <TableRow>
-    //                     <TableCell>Task #2</TableCell>
-    //                     </TableRow>
-    //                 </TableBody>
-    //                 </Table>
-
-    //             </Grid>
-
-    //             <Grid>
-    //                 <Card>
-    //                     <h2>In Progress</h2>
-    //                 </Card>
-    //                 <Table>
-    //                 <TableHead>
-    //                 <TableRow>
-    //                     <TableCell><Card>PBI 1</Card></TableCell>
-    //                 </TableRow>
-    //                 </TableHead>
-    //                 <TableBody>
-    //                     <TableRow>
-    //                         <TableCell>Task #1</TableCell>
-    //                     </TableRow>
-    //                     <TableRow>
-    //                     <TableCell>Task #2</TableCell>
-    //                     </TableRow>
-    //                 </TableBody>
-    //                 </Table>
-
-    //             </Grid>
-    //             <Grid>
-    //                 <Card>
-    //                     <h2>Under Review</h2>
-    //                     <Table>
-    //                 <TableHead>
-    //                 <TableRow>
-    //                     <TableCell><Card>PBI 1</Card></TableCell>
-    //                 </TableRow>
-    //                 </TableHead>
-    //                 <TableBody>
-    //                     <TableRow>
-    //                         <TableCell>Task #1</TableCell>
-    //                     </TableRow>
-    //                     <TableRow>
-    //                     <TableCell>Task #2</TableCell>
-    //                     </TableRow>
-    //                 </TableBody>
-    //                 </Table>
-
-    //                 </Card>
-    //             </Grid>
-    //             <Grid>
-    //                 <Card>
-    //                    <h2>Completed</h2>
-    //                 </Card>
-    //                 <Table>
-    //                 <TableHead>
-    //                 <TableRow>
-    //                     <TableCell><Card>PBI 1</Card></TableCell>
-    //                 </TableRow>
-    //                 </TableHead>
-    //                 <TableBody>
-    //                     <TableRow>
-    //                         <TableCell>Task #1</TableCell>
-    //                     </TableRow>
-    //                     <TableRow>
-    //                     <TableCell>Task #2</TableCell>
-    //                     </TableRow>
-    //                 </TableBody>
-    //                 </Table>
-
-    //             </Grid>
-
-    //     </Fragment>
-    // );
 
     return (
         <Fragment>
@@ -148,64 +115,145 @@ function ProjectBoard() {
                         <Typography variant="h5">
                             To-Do
                         </Typography>
+                        <br></br>
                         
                         <Paper>
-                            <Typography>
-                                PBI Name:
-                            </Typography>
+                        {tasks.map((taskitem) => {
+                            if(taskitem.status==1)
+                            return (
+                                <Grid item>
+                                <Paper>
+                                  <Typography>Task Name: {taskitem.name}
+                                  </Typography>
+                                  <Typography>Description: {taskitem.desc}
+                                  </Typography>
+                                  <Typography>Status: {taskitem.status}
+                                  </Typography>
+                                  <Typography>PBI ID: {taskitem.pbi_id}
+                                  </Typography>
+                                 
+                                </Paper>
+                                                    
+                                </Grid>
 
-                            <Typography>
-                                Description:
-                            </Typography>
+                            );
+                    })}
+            
+                                
 
-                            <Typography>
-                                Estimate Cost:
-                            </Typography>
+                  
+                     </Paper>
+                    </Paper>
+                </Grid>
 
-                            <Table>
-                                <TableBody>
-                                    <TableRow
-                                        hover
-                                    >
-                                        <TableCell>
-                                            <Typography>
-                                                Task Name
-                                            </Typography>
+                <Grid item>
 
-                                            <Typography>
-                                                Description
-                                            </Typography>
+                <Paper
+                        square
+                    >
+                        <Typography variant="h5">
+                           In Progress
+                        </Typography>
+                        <br></br>
+                        
+                        <Paper>
+                        {tasks.map((taskitem) => {
+                            if(taskitem.status==2)
+                            return (
+                                <Grid item>
+                                  <Paper>
+                                  <Typography>Task Name: {taskitem.name}
+                                  </Typography>
+                                  <Typography>Description: {taskitem.desc}
+                                  </Typography>
+                                  <Typography>Status: {taskitem.status}
+                                  </Typography>
+                                  <Typography>PBI ID: {taskitem.pbi_id}
+                                  </Typography>
+                                </Paper>
 
-                                            <Typography>
-                                                Story Points
-                                            </Typography>
+                                </Grid>
 
-                                            
-                                        </TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
+                            );
+                    })}
+                        </Paper>
 
+                    </Paper>
+                    </Grid>
+
+                <Grid item>
+                <Paper
+                        square
+                    >
+                        <Typography variant="h5">
+                           Under Review
+                        </Typography>
+                        <br></br>
+                        
+                        <Paper>
+                        {tasks.map((taskitem) => {
+                            if(taskitem.status==3)
+                            return (
+                                <Grid item>
+                                  <Paper>
+                                  <Typography>Task Name: {taskitem.name}
+                                  </Typography>
+                                  <Typography>Description: {taskitem.desc}
+                                  </Typography>
+                                  <Typography>Status: {taskitem.status}
+                                  </Typography>
+                                  <Typography>PBI ID: {taskitem.pbi_id}
+                                  </Typography>
+                                </Paper>
+                                                    
+                                </Grid>
+
+                            );
+                    })}
                         </Paper>
 
                     </Paper>
                 </Grid>
 
                 <Grid item>
+                <Paper
+                        square
+                    >
+                        <Typography variant="h5">
+                          Completed
+                        </Typography>
+                        <br></br>
+                        
+                        <Paper>
+                        {tasks.map((taskitem) => {
+                            if(taskitem.status==4)
+                            return (
+                                <Grid item>
+                                 <Paper>
+                                  <Typography>Task Name: {taskitem.name}
+                                  </Typography>
+                                  <Typography>Description: {taskitem.desc}
+                                  </Typography>
+                                  <Typography>Status: {taskitem.status}
+                                  </Typography>
+                                  <Typography>PBI ID: {taskitem.pbi_id}
+                                  </Typography>
+                                </Paper>
+                                                    
+                                </Grid>
+
+                            );
+                    })}
+                        </Paper>
+
+                    </Paper>
                     
                 </Grid>
 
-                <Grid item>
-                    
-                </Grid>
-
-                <Grid item>
-                    
-                </Grid>
+               
 
             </Grid>
         </Fragment>
     );
 
 }
-export default ProjectBoard;
