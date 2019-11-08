@@ -10,6 +10,7 @@ import BacklogView from './BacklogView';
 import PBIDetails from './PBIDetails';
 import AddTask from './AddTask';
 
+
 function App() {
     return (
         <Switch>
@@ -36,7 +37,7 @@ function App() {
                     <NewProject/>
                 }
             />
-
+            
             <Route
                 exact
                 path="/project_board"
@@ -68,6 +69,7 @@ function App() {
                     <AddTask/>
                 }
             />
+            
 
         </Switch>
     );

@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
 
-
 class NewProject extends React.Component {
     constructor(props) {
         super(props);
