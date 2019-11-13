@@ -1,22 +1,60 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 
-import { Card, CardContent, Typography, IconButton, Icon, Grid, TextField, Button } from '@material-ui/core';
+import { Card, CardContent, Typography, IconButton, Icon, Grid, TextField, Button , Paper } from '@material-ui/core';
 
 import Edit from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
 
+
+
+import { Link } from 'react-router-dom';
 function BacklogItem(props) {
 
     /**
      * React State variables, and setter functions
      */
     const [editable, setEditable] = useState(false);
-
+    const [editableTask, setEditableTask] = useState(false);
+    const [tasks, taskToState] = useState([])
     const [currentName, setName] = useState(props.pbiData.name);
     const [currentDesc, setDesc] = useState(props.pbiData.desc);
     const [currentCost, setCost] = useState(props.pbiData.story_pts);
+    const [taskName, setTaskName] = useState([]);
     // const [currentStatus, setStatus] = useState(props.pbiData.story_pts);
-
+    function getTasks() {
+        fetch("api/tasks/")
+    
+            .then(response => {
+    
+                if (response.status != 200) {
+                    console.log("Something went wrong!");
+                }
+    
+                return response.json()
+            })
+    
+            .then(data => {
+                taskToState(data);
+          
+                 
+            });
+            
+           
+    }
+    function deleteTask(taskid) {
+        fetch("api/tasks/" + taskid, {
+            method: "DELETE",
+            cache: "no-cache",
+        })
+            .then(response => response)
+            .then(response => console.log(response))
+            .then(response => getTasks());   
+    }
+    useEffect(() => {
+   
+        getTasks();
+       
+    }, []);
     // TODO: DO PRIORITY SORTING
     return (
         <Fragment>
@@ -24,7 +62,7 @@ function BacklogItem(props) {
             <Card>
             
                 <CardContent>
-
+               
                     <Grid container direction="column" spacing={4} >
 
                         <Grid item>
@@ -74,7 +112,7 @@ function BacklogItem(props) {
                                 size="small"
                                 disableFocusRipple
                                 onClick={() => {
-                                    props.deletePBI(props.pbiData.pbi_id)
+                                    props.deletePBI(props.pbiData.id)
                                 }}
                             >
                                 <Icon>
@@ -113,6 +151,43 @@ function BacklogItem(props) {
                             >
                                 Save
                             </Button>
+                        </Grid>
+                        <Grid container direction="column">
+                        <Grid item>
+                        {tasks.map((taskitem) => {
+                          
+                            return (
+                                <Grid item>
+                                <Paper>
+                                 <Typography>Name: {taskitem.name}
+                                  </Typography>
+                                  <Typography>Description: {taskitem.desc}
+                                  </Typography>
+                                  <Typography>Status: {taskitem.status}
+                                  </Typography>
+                                <Grid item>
+                                 <IconButton size="small"
+                                    disableFocusRipple
+                                    onClick={() => {
+                                    deleteTask(taskitem.task_id)
+                                }}
+                                >
+                                <Icon>
+                                    <Delete />
+                                </Icon>
+                                 </IconButton>
+                                </Grid>
+                                
+                                 
+                                </Paper>
+                                                    
+                                </Grid>
+
+                            );
+                    })}
+
+                        </Grid>
+                        <Button size="small" component={Link} to="/task">Add Task</Button>
                         </Grid>
 
                     </Grid>

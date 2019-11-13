@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Grid, Typography, Paper, Button } from '@material-ui/core';
 
 import ProjectBoardItem from './ProjectBoardItem';
-
+import { Link } from 'react-router-dom';
 export default function ProjectBoard() {
     
     const [tasks, taskToState] = useState([]);
@@ -48,6 +48,7 @@ export default function ProjectBoard() {
 
     return (
         <Fragment>
+             <Button size="small" component={Link} to="/homepage">Home</Button> <br></br>
             <Grid
                 container
                 direction="row"

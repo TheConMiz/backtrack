@@ -8,9 +8,9 @@ import { Link } from 'react-router-dom';
 
 
 export default function BacklogView() {
+    var backlogurl ="/backlog_view?p=";
     
     const [projects, setProjects] = useState([]);
-
     /**
      * Function for making a GET request for the PBIs
      */
@@ -76,14 +76,19 @@ export default function BacklogView() {
                         Projects
                     </Typography>
 
-
+                  
                     {projects.map((item) => {
+                        {backlogurl = backlogurl + item.id}
+                    
                         return (
+                            
                             <Fragment>
-                                <ProjectItem projectData={item} key={item.p_id}
+                                Project ID: {item.id}
+                                <ProjectItem projectData={item} key={item.id}
                                     editProject={editProject}
                                 />
-                                <Button size="small" component={Link} to="/backlog_view">View Backlog</Button>
+
+                                <Button projectData={item}size="small" component={Link} to={backlogurl}>Product Backlog</Button>
                                 <Button size="small" component={Link} to="/project_board">Scrum Board</Button>
                             </Fragment>
                         );

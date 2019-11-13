@@ -8,9 +8,10 @@ import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 export default function BacklogView() {
-
+    
     const [pbis, pbiToState] = useState([]);
     const [pbiDialog, setPBIDialog] = useState(false);
+   // const [projectId, setId] = useState(this.props.projectData.p_id);
 
     /**
      * Function for making a GET request for the PBIs
@@ -50,7 +51,7 @@ export default function BacklogView() {
      */
     function editPBI(pbiData) {
         // console.log("mlem")
-        fetch("api/pbis/" + pbiData.pbi_id + "/", {
+        fetch("api/pbis/" + pbiData.id + "/", {
             method: "PATCH",
 
             headers: {
@@ -90,8 +91,11 @@ export default function BacklogView() {
      */
     useEffect(() => {
         getPBIs();
-    }, []);
 
+
+        
+    }, []);
+    
     return (    
         <Fragment>
 
@@ -120,7 +124,7 @@ export default function BacklogView() {
                             <Grid item>
                                 <BacklogItem
                                     pbiData={item}
-                                    key={item.pbi_id}
+                                    key={item.id}
                                     deletePBI={deletePBI}
                                     editPBI={editPBI}
                                 />
@@ -137,6 +141,7 @@ export default function BacklogView() {
                     >
                         Add a PBI
                     </Button>
+                    <Button size="small" component={Link} to="/homepage">Home</Button> <br></br>
 
 
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 
 import { Dialog, DialogTitle, Typography, DialogActions, DialogContent, TextField, Button, Grid} from '@material-ui/core';
+import BacklogItem from './BacklogItem';
 
 function BacklogDialog(props) {
 
@@ -102,8 +103,9 @@ function BacklogDialog(props) {
                                 name: name,
                                 desc: desc,
                                 story_pts: cost,
-                                project_id: 1,
-                                priority:priority
+                                project_id :1,
+                                priority:priority,
+                                status:1,
                             });
 
                             resetStates();
