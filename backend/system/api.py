@@ -35,3 +35,14 @@ class ProjectView(viewsets.ModelViewSet):
     ]
 
     serializer_class = ProjectSerializer
+
+class SprintBacklogView(viewsets.ModelViewSet):
+
+    queryset = PBIsInSprint.objects.all()
+
+    # Need to change this as we add user authentication
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+    serializer_class = PBIsInSprintSerializer

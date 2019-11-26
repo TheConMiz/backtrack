@@ -103,7 +103,7 @@ function BacklogDialog(props) {
                                 name: name,
                                 desc: desc,
                                 story_pts: cost,
-                                project_id :1,
+                                project_id :3,
                                 priority:priority,
                                 status:1,
                             });

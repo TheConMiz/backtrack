@@ -61,8 +61,15 @@ class TaskOwnership(models.Model):
 class Sprint(models.Model):
     total_story_points = models.IntegerField(default=0)
     completed_story_points = models.IntegerField(default=0)
+   
+    # Status Key
+    ## 1 - In progress
+    ## 2 - Completed 
+    status = models.IntegerField(default=1)
+
 
 
 class PBIsInSprint(models.Model):
     sprint_id = models.ForeignKey(Sprint, on_delete=models.CASCADE, default=0)
-    pbi_id = models.ForeignKey(PBI, on_delete=models.CASCADE)
+    pbi_id = models.ForeignKey(PBI, on_delete=models.CASCADE) 
+   

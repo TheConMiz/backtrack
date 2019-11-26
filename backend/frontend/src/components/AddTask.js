@@ -110,8 +110,7 @@ class AddTask extends React.Component {
                             story_points: this.state.story_points,
                             //priority: this.state.priority,
                             status: this.state.status,
-                            pbi_id:9,
-                            task_id:2,
+                            pbi_id:5,
                         })
                     }}>
                         Submit

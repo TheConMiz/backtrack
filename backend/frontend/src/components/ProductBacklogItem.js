@@ -8,7 +8,7 @@ import Delete from '@material-ui/icons/Delete';
 
 
 import { Link } from 'react-router-dom';
-function BacklogItem(props) {
+function ProductBacklogItem(props) {
 
     /**
      * React State variables, and setter functions
@@ -23,6 +23,20 @@ function BacklogItem(props) {
     const [taskName, setTaskName] = useState([]);
     // const [currentStatus, setStatus] = useState(props.pbiData.story_pts);
 
+
+    function moveToSprint(PBIdata) {
+        fetch("api/pbisinsprint/", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(PBIdata)
+        })
+
+            .then(response => response)
+            .then(response=> console.log(response))
+    }
 
 
     function getTasks() {
@@ -40,6 +54,7 @@ function BacklogItem(props) {
             .then(data => {
                 taskToState(data);
           
+                 
             });
             
            
@@ -110,7 +125,51 @@ function BacklogItem(props) {
 
                     <Grid container direction="row">
 
-                       
+                        <Grid item>
+                            <IconButton
+                                size="small"
+                                disableFocusRipple
+                                onClick={() => {
+                                    props.deletePBI(props.pbiData.id)
+                                }}
+                            >
+                                <Icon>
+                                    <Delete />
+                                </Icon>
+                            </IconButton>
+                        </Grid>
+                        <Grid item>
+                            <IconButton
+                                disableFocusRipple
+                                disabled={editable}
+                                size="small"
+                                onClick={() => {
+                                    setEditable(true)
+                                }}
+                            >
+                                <Icon>
+                                    <Edit/>
+                                </Icon>
+                            </IconButton>
+                        </Grid>
+
+                        <Grid item>
+                            <Button
+                                disabled={!editable}
+                                onClick={() => {
+                                    setEditable(false)
+
+                                    props.editPBI({
+                                        ...props.pbiData,
+                                        name: currentName,
+                                        story_pts: currentCost,
+                                        desc: currentDesc
+                                    })
+                                }}
+                            >
+                                Save
+                            </Button>
+                        </Grid>
                         <Grid container direction="column">
                         <Grid item>
                         {tasks.map((taskitem) => {
@@ -146,8 +205,13 @@ function BacklogItem(props) {
                     })}
 
                         </Grid>
+                        <Button size="small" component={Link} to="/backlog_view" onClick={() => {
+                            moveToSprint({
+                                pbi_id: currentId, 
+                                sprint_id: 1})
+                            }}>
+                        Move to Sprint</Button>
                         
-                        <Button size="small" component={Link} to="/task">Add Task</Button>
                         </Grid>
 
                     </Grid>
@@ -157,4 +221,4 @@ function BacklogItem(props) {
         </Fragment>
     );
 }
-export default BacklogItem;
+export default ProductBacklogItem;

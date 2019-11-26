@@ -1,25 +1,23 @@
 import React, { Fragment, useState, useEffect } from 'react';
 
-import BacklogItem from './BacklogItem';
-import BacklogDialog from './BacklogDialog';
+import ProductBacklogItem from './ProductBacklogItem';
 
 import { Typography, Paper, Grid } from '@material-ui/core';
 import { Button } from '@material-ui/core'; 
+import BacklogDialog from './BacklogDialog';
 import { Link } from 'react-router-dom';
 
-export default function BacklogView() {
+export default function SprintBacklog() {
     
     const [pbis, pbiToState] = useState([]);
-    const [PBIsInSprint, setPBIsInSprint] = useState([]);
-    const [pbiIds, setPBIIds] = useState([]);
-    
+    const [pbiDialog, setPBIDialog] = useState(false);
+   // const [projectId, setId] = useState(this.props.projectData.p_id);
+
     /**
-  
-     * Function for making a GET request for the PBIs in Sprint
+     * Function for making a GET request for the PBIs
      */
-    function getPBIIDs() {
-        var completeData =[]
-        fetch("api/pbisinsprint/")
+    function getPBIs() {
+        fetch("api/pbis/")
 
             .then(response => {
 
@@ -28,38 +26,26 @@ export default function BacklogView() {
                 }
 
                 return response.json()
-              
             })
 
             .then(data => {
-                setPBIIds(data);
-                data.map((item) => {
-                    console.log("looop");
-                    console.log(item); 
-        
-                   fetch("api/pbis/"+item.pbi_id)
-
-                   .then(response => {
-       
-                       if (response.status != 200) {
-                           console.log("Something went wrong!");
-                       }
-       
-                       return response.json()
-                   })
-       
-                   .then(data2 => {
-                       completeData = completeData.concat(data2);
-                       console.log("complete");
-                       console.log(completeData);
-               
-                      setPBIsInSprint(completeData);
-                      
-                   });
-                    
-                });
-            })  
+                pbiToState(data);
+            });
     }
+
+    /**
+     * Function for deleting a given PBI. Passed as props to each ProductBacklogItem
+     */
+    function deletePBI(pbiID) {
+        fetch("api/pbis/" + pbiID, {
+            method: "DELETE",
+            cache: "no-cache",
+        })
+            .then(response => response)
+            .then(response => console.log(response))
+            .then(response => getPBIs());   
+    }
+
     /**
      * Function for editing existing PBIs
      */
@@ -77,8 +63,26 @@ export default function BacklogView() {
             
             .then(response=> response)
             .then(response => console.log(response))
-            
+            .then(response => getPBIs())
         
+    }
+
+    /**
+     * Function for creating new PBI and adding it to the database
+     */
+    function addPBI(newPBIData) {
+        fetch("api/pbis/", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newPBIData)
+        })
+
+            .then(response => response)
+            .then(response => console.log(response))
+            .then(response => getPBIs())
     }
 
 
@@ -86,17 +90,17 @@ export default function BacklogView() {
      * React Lifecycle hook for getting PBIs prior to rendering the page
      */
     useEffect(() => {
-      
-        getPBIIDs();
-       
+        getPBIs();
         
     }, []);
     
     return (    
-     
         <Fragment>
+            <BacklogDialog openDialog={pbiDialog} setDialog={setPBIDialog} addPBI={addPBI}/>
+
+
             <Typography variant="h4">
-                Sprint Backlog
+                Product Backlog
             </Typography>
 
             <Grid
@@ -113,12 +117,13 @@ export default function BacklogView() {
                          Backlog
                     </Typography>
 
-                    {PBIsInSprint.map((item) => {
+                    {pbis.map((item) => {
                         return (
                             <Grid item>
-                                <BacklogItem
+                                <ProductBacklogItem
                                     pbiData={item}
                                     key={item.id}
+                                    deletePBI={deletePBI}
                                     editPBI={editPBI}
                                 />
                             </Grid>
@@ -126,7 +131,15 @@ export default function BacklogView() {
                         );
                     })}
 
-                   
+                    <Button
+                        onClick={() => {
+                            setPBIDialog(true);
+                        }}
+                        disableFocusRipple
+                    >
+                    Add a PBI
+                    </Button>
+                    
                     <Button size="small" component={Link} to="/homepage">Home</Button> <br></br>
 
 

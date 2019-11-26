@@ -8,6 +8,7 @@ import HomeView from './HomeView';
 import ProjectBoard from './ProjectBoard';
 import BacklogView from './BacklogView';
 import AddTask from './AddTask';
+import ProductBacklog from './ProductBacklog';
 
 
 function App() {
@@ -58,6 +59,14 @@ function App() {
                 path="/task"
                 render={() => 
                     <AddTask/>
+                }
+            />
+
+            <Route
+                exact
+                path="/product_backlog"
+                render={() => 
+                    <ProductBacklog/>
                 }
             />
              

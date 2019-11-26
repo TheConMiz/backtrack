@@ -32,16 +32,16 @@ export default function BacklogView() {
                 setProjects(data)
             });
     }
-    function editProject(projectData) {
+    function editProject(projectdata) {
         // console.log("mlem")
-        fetch("api/project/" + projectData.p_id + "/", {
+        fetch("api/project/" + projectdata.p_id + "/", {
             method: "PATCH",
 
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(projectData)
+            body: JSON.stringify(projectdata)
         })
             
             .then(response=> response)
@@ -88,7 +88,7 @@ export default function BacklogView() {
                                     editProject={editProject}
                                 />
 
-                                <Button projectData={item}size="small" component={Link} to={backlogurl}>Product Backlog</Button>
+                                <Button projectdata={item}size="small" component={Link} to={backlogurl}>Sprint Backlog</Button>
                                 <Button size="small" component={Link} to="/project_board">Scrum Board</Button>
                             </Fragment>
                         );
@@ -96,7 +96,10 @@ export default function BacklogView() {
                     })}
                     <br></br>
                     <br></br>
-                     <Button size="small" component={Link} to="/new_project">Add New Project</Button>
+                    <Button size="small" component={Link} to="/product_backlog">Product Backlog</Button> <br></br>
+
+                    <Button size="small" component={Link} to="/new_project">Add New Project</Button>
+                     
 
                 </Paper>
 
