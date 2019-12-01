@@ -88,18 +88,16 @@ export default function BacklogView() {
                                     editProject={editProject}
                                 />
 
-                                <Button projectdata={item}size="small" component={Link} to={backlogurl}>Sprint Backlog</Button>
-                                <Button size="small" component={Link} to="/project_board">Scrum Board</Button>
+                    <Button size="small" component={Link} to="/new_project">Add New Project</Button>
+
+                     
                             </Fragment>
                         );
                         
                     })}
                     <br></br>
                     <br></br>
-                    <Button size="small" component={Link} to="/product_backlog">Product Backlog</Button> <br></br>
-
-                    <Button size="small" component={Link} to="/new_project">Add New Project</Button>
-                     
+                    
 
                 </Paper>
 

@@ -21,15 +21,16 @@ class Project(models.Model):
 
 class PBI(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+    #sprint_id = models.ForeignKey(Sprint, on_delete=models.CASCADE, default=0)
     story_pts = models.IntegerField(default=0)
     name = models.CharField(max_length=30)
     desc = models.CharField(max_length=100)
 
     # Status Key
+    ## 0 - Not in Sprint
     ## 1 - To-Do
     ## 2 - In Progress
-    ## 3 - Under Review
-    ## 4 - Completed
+    ## 3 - Completed
     status = models.IntegerField(default=1)
 
     priority = models.IntegerField(default=0)
@@ -43,11 +44,12 @@ class Task(models.Model):
     # Status Key
     ## 1 - To-Do
     ## 2 - In Progress
-    ## 3 - Under Review
-    # ## 4 - Completed
+    ## 3 - Completed
     status = models.IntegerField(default=1)
 
     priority = models.IntegerField(default=0)
+   # dev_id = models.ForeignKey(Developer, on_delete=models.CASCADE)
+   # effort = models.IntegerField(default=0)
 
 
 class TaskOwnership(models.Model):
@@ -59,6 +61,7 @@ class TaskOwnership(models.Model):
 
 
 class Sprint(models.Model):
+    #capacity 
     total_story_points = models.IntegerField(default=0)
     completed_story_points = models.IntegerField(default=0)
    
@@ -68,7 +71,7 @@ class Sprint(models.Model):
     status = models.IntegerField(default=1)
 
 
-
+#remove?
 class PBIsInSprint(models.Model):
     sprint_id = models.ForeignKey(Sprint, on_delete=models.CASCADE, default=0)
     pbi_id = models.ForeignKey(PBI, on_delete=models.CASCADE) 

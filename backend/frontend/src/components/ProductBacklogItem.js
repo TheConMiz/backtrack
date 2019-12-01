@@ -1,10 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react';
 
-import { Card, CardContent, Typography, IconButton, Icon, Grid, TextField, Button , Paper } from '@material-ui/core';
+import { Card, CardContent, Typography, IconButton, Icon, Grid, TextField, Button, Paper } from '@material-ui/core';
+import { Table, TableBody, TableHead, TableCell, TableRow } from '@material-ui/core';
 
 import Edit from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
-
+import SaveIcon from '@material-ui/icons/Save';
+import PostAddIcon from '@material-ui/icons/PostAdd';
 
 
 import { Link } from 'react-router-dom';
@@ -35,190 +37,135 @@ function ProductBacklogItem(props) {
         })
 
             .then(response => response)
-            .then(response=> console.log(response))
+            .then(response => console.log(response))
     }
 
 
     function getTasks() {
         fetch("api/tasks/")
-    
+
             .then(response => {
-    
+
                 if (response.status != 200) {
                     console.log("Something went wrong!");
                 }
-    
+
                 return response.json()
             })
-    
+
             .then(data => {
                 taskToState(data);
-          
-                 
             });
-            
-           
+
     }
-    function deleteTask(taskid) {
-        fetch("api/tasks/" + taskid, {
+
+    function deletePBI(id) {
+        fetch("api/pbis/" + id, {
             method: "DELETE",
             cache: "no-cache",
         })
             .then(response => response)
             .then(response => console.log(response))
-            .then(response => getTasks());   
+            .then(response => getTasks());
     }
     useEffect(() => {
-   
+
         getTasks();
-       
+
     }, []);
     // TODO: DO PRIORITY SORTING
     return (
-        <Fragment>
-            
-            <Card>
-            
-                <CardContent>
-               
-                    <Grid container direction="column" spacing={4} >
+        <TableBody>
+            <TableRow>
+                <TableCell align="center">
+                    <TextField
+                        value={currentId}
+                        disabled={!editable}
 
-                        <Grid item>
-                            <TextField
-                                label="Name"
-                                value={currentName}
-                                disabled={!editable}
-                                onChange={(event) => {
-                                    setName(event.target.value)
-                                }}
+                    />
+                </TableCell>
+                <TableCell align="center">
+                    <TextField
+                        value={currentName}
+                        disabled={!editable}
+                        onChange={(event) => {
+                            setName(event.target.value)
+                        }}
+                    />
+                </TableCell>
+                <TableCell align="center">
+                    <TextField
+                        type="number"
+                        value={currentCost}
+                        disabled={!editable}
+                        onChange={(event) => {
+                            setCost(event.target.value)
+                        }}
+                    />
+                </TableCell>
+                <TableCell align="center">
+                    <TextField
+                        value={currentDesc}
+                        disabled={!editable}
+                        onChange={(event) => {
+                            setDesc(event.target.value)
+                        }}
+                    />
+                </TableCell>
+                <TableCell align="center">
+                    <IconButton
+                        disableFocusRipple
+                        disabled={editable}
+                        size="small"
+                        onClick={() => {
+                            setEditable(true)
+                        }}
+                    >
+                        <Icon><Edit /></Icon>
+                    </IconButton>
+                </TableCell>
 
-                            />
-                        </Grid>
-
-                        <Grid item>
-                            <TextField
-                                label="Estimated Cost"
-                                type="number"
-                                value={currentCost}
-                                disabled={!editable}
-
-                                onChange={(event) => {
-                                    setCost(event.target.value)
-                                }}
-                            />
-                            
-                        </Grid>
-
-                        <Grid item>
-                            <TextField
-                                label="Description"
-                                value={currentDesc}
-                                disabled={!editable}
-
-                                onChange={(event) => {
-                                    setDesc(event.target.value)
-                                }}
-                            />
-                        </Grid>     
-
-                    </Grid>
-
-                    <Grid container direction="row">
-
-                        <Grid item>
-                            <IconButton
-                                size="small"
-                                disableFocusRipple
-                                onClick={() => {
-                                    props.deletePBI(props.pbiData.id)
-                                }}
-                            >
-                                <Icon>
-                                    <Delete />
-                                </Icon>
-                            </IconButton>
-                        </Grid>
-                        <Grid item>
-                            <IconButton
-                                disableFocusRipple
-                                disabled={editable}
-                                size="small"
-                                onClick={() => {
-                                    setEditable(true)
-                                }}
-                            >
-                                <Icon>
-                                    <Edit/>
-                                </Icon>
-                            </IconButton>
-                        </Grid>
-
-                        <Grid item>
-                            <Button
-                                disabled={!editable}
-                                onClick={() => {
-                                    setEditable(false)
-
-                                    props.editPBI({
-                                        ...props.pbiData,
-                                        name: currentName,
-                                        story_pts: currentCost,
-                                        desc: currentDesc
-                                    })
-                                }}
-                            >
-                                Save
-                            </Button>
-                        </Grid>
-                        <Grid container direction="column">
-                        <Grid item>
-                        {tasks.map((taskitem) => {
-                          
-                            return (
-                                <Grid item>
-                                <Paper>
-                                 <Typography>Name: {taskitem.name}
-                                  </Typography>
-                                  <Typography>Description: {taskitem.desc}
-                                  </Typography>
-                                  <Typography>Status: {taskitem.status}
-                                  </Typography>
-                                <Grid item>
-                                 <IconButton size="small"
-                                    disableFocusRipple
-                                    onClick={() => {
-                                    deleteTask(taskitem.task_id)
-                                }}
-                                >
-                                <Icon>
-                                    <Delete />
-                                </Icon>
-                                 </IconButton>
-                                </Grid>
-                                
-                                 
-                                </Paper>
-                                                    
-                                </Grid>
-
-                            );
-                    })}
-
-                        </Grid>
-                        <Button size="small" component={Link} to="/backlog_view" onClick={() => {
-                            moveToSprint({
-                                pbi_id: currentId, 
-                                sprint_id: 1})
-                            }}>
-                        Move to Sprint</Button>
-                        
-                        </Grid>
-
-                    </Grid>
-
-                </CardContent>
-            </Card>
-        </Fragment>
+                <TableCell align="center">
+                    <IconButton
+                        disabled={!editable}
+                        onClick={() => {
+                            setEditable(false)
+                            props.editPBI({
+                                ...props.pbiData,
+                                name: currentName,
+                                story_pts: currentCost,
+                                desc: currentDesc
+                            })
+                        }}
+                    >
+                        <Icon><SaveIcon /></Icon>
+                    </IconButton>
+                </TableCell>
+                <TableCell align="center">
+                    <IconButton size="small" component={Link} to="/backlog_view" onClick={() => {
+                        moveToSprint({
+                            pbi_id: currentId,
+                            sprint_id: 1
+                        })
+                    }}>
+                        <Icon><PostAddIcon /></Icon>
+                    </IconButton>
+                </TableCell>
+                <TableCell>
+                    <IconButton size="small"
+                        disableFocusRipple
+                        onClick={() => {
+                            deletePBI(currentId)
+                            window.location.reload()
+                        }}
+                    >
+                        <Icon>
+                            <Delete />
+                        </Icon>
+                    </IconButton>
+                </TableCell>
+            </TableRow>
+        </TableBody>
     );
 }
 export default ProductBacklogItem;

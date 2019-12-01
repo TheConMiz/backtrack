@@ -1,101 +1,86 @@
 import React, { useState, Fragment } from 'react';
 
-import { Button, IconButton, Typography, Paper, Grid, Menu, Icon, MenuItem, TextField } from '@material-ui/core';
+import { Button, IconButton, Typography, Paper, Grid, Menu, Icon, MenuItem, TextField, Table, TableRow, TableCell, TableBody } from '@material-ui/core';
 
-import UpArrow from "@material-ui/icons/ArrowUpward";
-import DownArrow from '@material-ui/icons/ArrowDownward';
+
 import LeftArrow from '@material-ui/icons/ArrowBack';
 import RightArrow from '@material-ui/icons/ArrowForward';
-
+import VisibilityIcon from '@material-ui/icons/Visibility';
 function ProjectBoardItem(props) {
 
     return (
-        <Paper>
-            <Grid item container direction="column" spacing={2}>
+        <TableBody>
+            <TableRow>
+                <TableCell>
+                    <IconButton
+                        disableFocusRipple
+                        disabled={props.pbiData.status === 1 ? true : false}
+                        onClick={() => {
+                            props.setStatus({
+                                ...props.pbiData,
+                                status: props.pbiData.status - 1
+                            })
+                            window.location.reload();
+                        }}
 
-                <Grid item>
-                    <Typography variant="h6">
-                        PBI #{props.taskData.pbi_id}
-                    </Typography>
-                </Grid>
+                    >
+                        <Icon>
+                            <LeftArrow />
+                        </Icon>
+                    </IconButton>
+                </TableCell>
 
-                <Grid item>
-                    <Typography variant="h6">
-                        Name: {props.taskData.name}
-                    </Typography>
-                </Grid>
+                <TableCell >
+                    {props.pbiData.id}
+                </TableCell>
 
-                <Grid item>
-                    <Typography variant="h6">
-                        Description: {props.taskData.desc}
-                    </Typography>
-                </Grid>
+                <TableCell>
+                    {props.pbiData.name}
+                </TableCell>
 
-                <Grid item container direction="row">
+                <TableCell>
+                    {props.pbiData.desc}
+                </TableCell>
 
-                    <Grid item>
-                        <IconButton
-                            disableFocusRipple
-                            disabled={props.taskData.status === 1 ? true: false}
-                            onClick={() => {
-                                props.setStatus({
-                                    ...props.taskData,
-                                    status: props.taskData.status - 1
-                                })
-                            }}
+                <TableCell>
+                    <IconButton
+                        disableFocusRipple
+                        onClick={() => {
+                            props.setStatus({
+                                
+                            })
+                            window.location.reload();
+                        }}
 
-                        >
-                            <Icon>
-                                <LeftArrow/>
-                            </Icon>
-                        </IconButton>
-                    </Grid>
+                    >
+                        <Icon>
+                            <VisibilityIcon />
+                        </Icon>
+                    </IconButton>
+                </TableCell>
 
-                    <Grid item>
-                        <IconButton
-                            disableFocusRipple
-                            disabled
-                        >
-                            <Icon>
-                                <UpArrow/>
-                            </Icon>
-                        </IconButton>
-                    </Grid>
+                <TableCell>
+                    <IconButton
+                        disableFocusRipple
+                        disabled={props.pbiData.status === 3 ? true : false}
+                        onClick={() => {
+                            props.setStatus({
+                                ...props.pbiData,
+                                status: props.pbiData.status + 1
+                            })
+                            window.location.reload();
+                        }}
+                    >
+                        <Icon>
+                            <RightArrow />
+                        </Icon>
+                    </IconButton>
+                </TableCell>
 
-                    <Grid item>
-                        <IconButton
-                            disableFocusRipple
-                            disabled
-                        >
-                            <Icon>
-                                <DownArrow/>
-                            </Icon>
-                        </IconButton>
-                    </Grid>
+            </TableRow>
+        </TableBody>
 
-                    <Grid item>
-                        <IconButton
-                            disableFocusRipple
-                            disabled={props.taskData.status === 4 ? true : false}
-                            onClick={() => {
-                                props.setStatus({
-                                    ...props.taskData,
-                                    status: props.taskData.status + 1
-                                })
-                            }}
-                        >
-                            <Icon>
-                                <RightArrow/>
-                            </Icon>
-                        </IconButton>
-                    </Grid>
-                </Grid>
-
-            </Grid>
-
-        </Paper>
     );
-
 
 }
 
