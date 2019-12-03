@@ -35,14 +35,17 @@ class TaskViewSet(viewsets.ModelViewSet):
 
 class ProjectView(viewsets.ModelViewSet):
 
-    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
 
-    # Need to change this as we add user authentication
     permission_classes = [
-        permissions.AllowAny
+        permissions.IsAuthenticated
     ]
 
-    serializer_class = ProjectSerializer
+    def get_queryset(self):
+        self.request.user.projects.all
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 # class SprintBacklogView(viewsets.ModelViewSet):
 

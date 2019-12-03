@@ -20,7 +20,7 @@ export default function BacklogView() {
             .then(response => {
 
                 if (response.status != 200) {
-                    console.log("Something went wrong!");
+                    console.log(response);
                 }
                
                 return response.json()
@@ -32,6 +32,7 @@ export default function BacklogView() {
                 setProjects(data)
             });
     }
+    
     function editProject(projectdata) {
         // console.log("mlem")
         fetch("api/project/" + projectdata.p_id + "/", {
