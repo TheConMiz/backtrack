@@ -7,7 +7,7 @@ router = routers.DefaultRouter()
 router.register('api/pbis', PBIViewSet, 'pbis')
 router.register('api/tasks', TaskViewSet, 'tasks')
 router.register('api/project', ProjectView, 'project')
-router.register('api/pbisinsprint', SprintBacklogView, 'pbisinsprint')
+# router.register('api/pbisinsprint', SprintBacklogView, 'pbisinsprint')
 
 # This takes every router url we've registered
 urlpatterns = router.urls

@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 
 import { Switch, Route } from 'react-router';
 
-import MainPage from './MainPage'
+import LoginPage from './LoginPage'
 import NewProject from './NewProject';
 import HomeView from './HomeView';
 import ProjectBoard from './ProjectBoard';
@@ -18,7 +18,7 @@ function App() {
                 exact
                 path="/"
                 render={() =>
-                    <MainPage/>
+                    <LoginPage/>
                 }
             />
             
@@ -70,8 +70,6 @@ function App() {
                 }
             />
              
-            
-
         </Switch>
     );
 }

@@ -5,14 +5,22 @@ from .serializers import *
 
 class PBIViewSet(viewsets.ModelViewSet):
 
-    queryset = PBI.objects.all()
+    # queryset = PBI.objects.all()
 
     # Need to change this as we add user authentication
     permission_classes = [
-        permissions.AllowAny
+        permissions.IsAuthenticated
     ]
 
     serializer_class = PBISerializer
+
+    def get_queryset(self):
+        self.request.user.pbis.all
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    
 
 class TaskViewSet(viewsets.ModelViewSet):
 
@@ -36,13 +44,13 @@ class ProjectView(viewsets.ModelViewSet):
 
     serializer_class = ProjectSerializer
 
-class SprintBacklogView(viewsets.ModelViewSet):
+# class SprintBacklogView(viewsets.ModelViewSet):
 
-    queryset = PBIsInSprint.objects.all()
+#     queryset = PBIsInSprint.objects.all()
 
-    # Need to change this as we add user authentication
-    permission_classes = [
-        permissions.AllowAny
-    ]
+#     # Need to change this as we add user authentication
+#     permission_classes = [
+#         permissions.AllowAny
+#     ]
 
-    serializer_class = PBIsInSprintSerializer
+#     serializer_class = PBIsInSprintSerializer

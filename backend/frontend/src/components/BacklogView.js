@@ -1,103 +1,78 @@
 import React, { Fragment, useState, useEffect } from 'react';
 
-import BacklogItem from './BacklogItem';
-import BacklogDialog from './BacklogDialog';
+import ProjectItem from './ProjectItem';
 
 import { Typography, Paper, Grid } from '@material-ui/core';
 import { Button } from '@material-ui/core'; 
 import { Link } from 'react-router-dom';
 
-export default function BacklogView() {
+
+export default function BacklogView(props) {
     
-    const [pbis, pbiToState] = useState([]);
-    const [PBIsInSprint, setPBIsInSprint] = useState([]);
-    const [pbiIds, setPBIIds] = useState([]);
+    let backlogurl = "/backlog_view?p=";
     
+    const [projects, setProjects] = useState([]);
+
     /**
-  
-     * Function for making a GET request for the PBIs in Sprint
+     * Function for making a GET request for the PBIs
      */
-    function getPBIIDs() {
-        var completeData =[]
-        fetch("api/pbisinsprint/")
+    function getProjects() {
+
+        fetch("api/project/")
 
             .then(response => {
 
                 if (response.status != 200) {
                     console.log("Something went wrong!");
                 }
-
+                
                 return response.json()
-              
             })
-
+            
+            /**
+             * Set obtained project data to component State
+             */
             .then(data => {
-                setPBIIds(data);
-                data.map((item) => {
-                    console.log("looop");
-                    console.log(item); 
-        
-                   fetch("api/pbis/"+item.pbi_id)
-
-                   .then(response => {
-       
-                       if (response.status != 200) {
-                           console.log("Something went wrong!");
-                       }
-       
-                       return response.json()
-                   })
-       
-                   .then(data2 => {
-                       completeData = completeData.concat(data2);
-                       console.log("complete");
-                       console.log(completeData);
-               
-                      setPBIsInSprint(completeData);
-                      
-                   });
-                    
-                });
-            })  
+               // console.log(data)
+                setProjects(data)
+            });
     }
-    /**
-     * Function for editing existing PBIs
-     */
-    function editPBI(pbiData) {
-        // console.log("mlem")
-        fetch("api/pbis/" + pbiData.id + "/", {
-            method: "PATCH",
 
+    function editProject(projectData) {
+
+        fetch("api/project/" + projectData.p_id + "/", {
+            method: "PATCH",
+            
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(pbiData)
+
+            body: JSON.stringify(projectData)
         })
             
-            .then(response=> response)
+            .then(response => response)
+            
             .then(response => console.log(response))
             
+            .then(response => getProjects())
         
     }
 
-
-    /**
-     * React Lifecycle hook for getting PBIs prior to rendering the page
-     */
     useEffect(() => {
-      
-        getPBIIDs();
-       
         
+        getProjects()
+
     }, []);
-    
-    return (    
-     
+
+    return (
+
         <Fragment>
-            <Typography variant="h4">
-                Sprint Backlog
+            <Typography variant="h4" align="center">
+                Home Page
             </Typography>
+            <br></br><br></br>
+
 
             <Grid
                 container
@@ -106,30 +81,44 @@ export default function BacklogView() {
                 alignItems="flex-start"
             >
 
-                <Paper
-                    square
-                >
-                    <Typography variant="h6">
-                         Backlog
+                <Paper>
+                      <Typography variant="h6" align="center">
+                        Projects
                     </Typography>
 
-                    {PBIsInSprint.map((item) => {
+                  
+                    {projects.map((item, index) => {
+                        {backlogurl = backlogurl + item.id}
+                    
                         return (
-                            <Grid item>
-                                <BacklogItem
-                                    pbiData={item}
-                                    key={item.id}
-                                    editPBI={editPBI}
-                                />
-                            </Grid>
                             
+                            <Fragment
+                                key={index}
+                            >
+                                
+                                <Typography>
+                                    Project ID: {item.id}
+                                </Typography>
+                                
+                                <ProjectItem
+                                    projectData={item}
+                                    
+                                    editProject={editProject}
+                                />
+
+                                <Button size="small" component={Link} to="/new_project">
+                                    Add New Project
+                                </Button>
+
+                    
+                            </Fragment>
                         );
+                        
                     })}
 
-                   
-                    <Button size="small" component={Link} to="/homepage">Home</Button> <br></br>
-
-
+                    <br></br>
+                    <br></br>
+                    
                 </Paper>
 
             </Grid>
