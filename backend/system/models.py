@@ -1,16 +1,26 @@
 from django.db import models
 from django.urls import path
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import UserManager, User, AbstractUser
 
 # This is a customised version of the default User model.
-class MultiUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class MultiUser(AbstractUser):
+    pass
+    # user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    # name = models.CharField(max_length=100, null=True)
+
+    # username = models.CharField(max_length=30, null=True)
+    # password = models.CharField(max_length=30, null=True)
+
+    # email = models.EmailField(max_length=100, null=True)
 
     # User Type Key
     # 1 - Developer
     # 2 - Manager
     type = models.IntegerField(default=0, null=True)
+
+    # objects = UserManager()
     
 
 class Project(models.Model):

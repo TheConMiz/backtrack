@@ -5,8 +5,6 @@ from .serializers import *
 
 class PBIViewSet(viewsets.ModelViewSet):
 
-    # queryset = PBI.objects.all()
-
     # Need to change this as we add user authentication
     permission_classes = [
         permissions.IsAuthenticated
