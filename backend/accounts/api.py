@@ -21,7 +21,7 @@ class RegisterAPI(generics.GenericAPIView):
             "token": AuthToken.objects.create(user)[1]
         })
 
-
+# API for Logging in
 class LoginAPI(generics.GenericAPIView):
     serializer_class = LoginSerializer
 
@@ -34,3 +34,14 @@ class LoginAPI(generics.GenericAPIView):
             "user": MultiUserSerializer(user, context=self.get_serializer_context()).data,
             "token": AuthToken.objects.create(user)[1]
         })
+
+# API for creating a protected route for Users
+class GetUserAPI(generics.RetrieveAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    serializer_class = MultiUserSerializer
+
+    def get_object(self):
+        return self.request.user
