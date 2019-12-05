@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'frontend',
     "accounts",
-    "knox"
+    "knox", 
+    'send'
 ]
 
 AUTH_USER_MODEL = "system.MultiUser" 
@@ -132,3 +133,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'jcalamansi@gmail.com'
+EMAIL_HOST_PASSWORD = 'backtrack'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
