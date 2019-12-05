@@ -21,7 +21,6 @@ class PBIViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
 
     
-
 class TaskViewSet(viewsets.ModelViewSet):
 
     queryset = Task.objects.all()
@@ -46,14 +45,3 @@ class ProjectView(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
-
-# class SprintBacklogView(viewsets.ModelViewSet):
-
-#     queryset = PBIsInSprint.objects.all()
-
-#     # Need to change this as we add user authentication
-#     permission_classes = [
-#         permissions.AllowAny
-#     ]
-
-#     serializer_class = PBIsInSprintSerializer
