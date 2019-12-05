@@ -6,14 +6,6 @@ from django.contrib.auth.models import UserManager, User, AbstractUser
 # This is a customised version of the default User model.
 class MultiUser(AbstractUser):
     pass
-    # user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    # name = models.CharField(max_length=100, null=True)
-
-    # username = models.CharField(max_length=30, null=True)
-    # password = models.CharField(max_length=30, null=True)
-
-    # email = models.EmailField(max_length=100, null=True)
 
     # User Type Key
     # 1 - Developer
