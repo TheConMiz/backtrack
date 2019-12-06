@@ -15,9 +15,9 @@ export default function BacklogView() {
     const [projects, setProjects] = useState([]);
     
     /**
-     * Function for making a GET request for the PBIs
+     * Function for getting all projects
      */
-    function getProjects() {
+    const getProjects = () => {
         fetch("api/project/")
 
             .then(response => {
@@ -40,7 +40,6 @@ export default function BacklogView() {
         // console.log("mlem")
         fetch("api/project/" + projectdata.p_id + "/", {
             method: "PATCH",
-
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
@@ -54,9 +53,29 @@ export default function BacklogView() {
 
     }
 
+    const getProjectDevelopers = () => {
+        fetch("api/project_developers/")
+
+            .then(response => {
+
+                if (response.status != 200) {
+                    console.log(response);
+                }
+
+                return response.json()
+
+                .then(data => {
+                    setProjectDevelopers(data)
+                    console.log(projectDevelopers)
+                });
+            
+            })
+    }
+
     useEffect(() => {
 
         getProjects()
+        getProjectDevelopers()
 
     }, []);
 

@@ -3,11 +3,9 @@ import React, { Fragment, useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router';
 
 import LoginPage from './LoginPage'
-import NewProject from './NewProject';
 import HomeView from './HomeView';
 import ProjectBoard from './ProjectBoard';
 import BacklogView from './BacklogView';
-import AddTask from './AddTask';
 import ProductBacklog from './ProductBacklog';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -15,13 +13,11 @@ export default function App(props) {
 
     const [isAuth, setIsAuth] = useState(false)
     const [incorrectAuth, setIncorrectAuth] = useState(false)
-    const [userInfo, setUserInfo] = useState(
-        {
-            name: "",
-            email: "",
-            type: 0,
-        }
-    )
+    const [userInfo, setUserInfo] = useState({
+        name: "",
+        email: "",
+        type: 0
+    })
 
     const getUserInfo = (token) => {
         console.log(token)
@@ -42,19 +38,19 @@ export default function App(props) {
                     return response.json()
                     .then(response => {
                         console.log(response)
-                        setUserInfo({
-                            name: "",
+
+                        let temp = Object.assign(userInfo, {
+                            name: response.first_name + " " + response.last_name,
                             email: response.email,
                             type: response.type
                         })
 
-                        console.log(userInfo)
+                        setUserInfo(temp)
                     })
                     
                 }
                 
-            })
-            
+            })  
     }
 
     const authenticateUser = (userCredentials) => {
@@ -85,8 +81,6 @@ export default function App(props) {
                         getUserInfo(response.token)
                     })
                 }
-
-                
             })
             
     }
@@ -106,24 +100,23 @@ export default function App(props) {
                 path="/project_board"
                 component={ProjectBoard}
                 isAuth={isAuth}
+                userInfo={userInfo}
             />
 
             <ProtectedRoute
                 exact
                 path="/backlog_view"
-                render={() => 
-                    <BacklogView/>
-                }
+                component={BacklogView}
                 isAuth={isAuth}
+                userInfo={userInfo}
             />
 
             <ProtectedRoute
                 exact
                 path="/product_backlog"
-                render={() => 
-                    <ProductBacklog/>
-                }
+                component={ProductBacklog}
                 isAuth={isAuth}
+                userInfo={userInfo}
             /> 
             
             <Route

@@ -11,8 +11,6 @@ class MultiUser(AbstractUser):
     # 1 - Developer
     # 2 - Manager
     type = models.IntegerField(default=0, null=True)
-
-    # objects = UserManager()
     
 
 class Project(models.Model):
@@ -48,8 +46,6 @@ class PBI(models.Model):
     ## 3 - Completed
     status = models.IntegerField(default=1)
 
-
-
 class Task(models.Model):
     pbi_id = models.ForeignKey(PBI, on_delete=models.CASCADE)
     dev_id = models.ForeignKey(MultiUser, on_delete=models.CASCADE, null=True)
@@ -63,3 +59,7 @@ class Task(models.Model):
     ## 2 - In Progress
     ## 3 - Completed
     status = models.IntegerField(default=1)
+
+class ProjectDevelopers(models.Model):
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
+    dev_id = models.ForeignKey(MultiUser, on_delete=models.CASCADE, null=True)
