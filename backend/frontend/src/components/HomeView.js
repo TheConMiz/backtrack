@@ -2,160 +2,102 @@ import React, { Fragment, useState, useEffect } from 'react';
 
 import ProjectItem from './ProjectItem';
 
-import { Typography, Paper, Grid, Table } from '@material-ui/core';
+import { Typography, Paper, Grid } from '@material-ui/core';
 import { Button } from '@material-ui/core'; 
 import { Link } from 'react-router-dom';
 
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => createStyles({
-    root: {
-        minHeight: '100vh'
-    },
-
-    table: {
-        minHeight: '80vh',
-        maxHeight: '100vh',
-        minWidth: '100vh',
-        maxWidth: '100vh',
-    } 
-}));
 
 export default function BacklogView() {
-
-    const classes = useStyles();
-
     var backlogurl ="/backlog_view?p=";
     
     const [projects, setProjects] = useState([]);
-
-export default function BacklogView() {
-    var backlogurl = "/backlog_view?p=";
-    var checkProjects =false;
-
-    const [projects, setProjects] = useState([]);
-    
     /**
-     * Function for getting all projects
+     * Function for making a GET request for the PBIs
      */
-    const getProjects = () => {
+    function getProjects() {
         fetch("api/project/")
 
             .then(response => {
 
                 if (response.status != 200) {
-                    console.log("Something went wrong.");
+                    console.log(response);
                 }
-
+               
                 return response.json()
-
+                
             })
 
             .then(data => {
-                // console.log(data)
+               // console.log(data)
                 setProjects(data)
             });
     }
-
+    
     function editProject(projectdata) {
         // console.log("mlem")
         fetch("api/project/" + projectdata.p_id + "/", {
             method: "PATCH",
+
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(projectdata)
         })
-
-            .then(response => response)
+            
+            .then(response=> response)
             .then(response => console.log(response))
             .then(response => getProjects())
-
-    }
-
-    const getProjectDevelopers = () => {
-        fetch("api/project_developers/")
-
-            .then(response => {
-
-                if (response.status != 200) {
-                    console.log("Something went wrong.");
-                }
-
-                return response.json()
-            })
-
-            .then(response => {
-                    // console.log(response)
-                    setProjectDevelopers(response)
-                    // console.log(projectDevelopers)
-            });
+        
     }
 
     useEffect(() => {
-
+        
         getProjects()
-        getProjectDevelopers()
 
     }, []);
 
-    // console.log(projectDevelopers)
-
-    return (
+    return (    
         <Fragment>
-            <Fragment>
-                <Typography variant="h4" align="center">
-                    Home Page
-                </Typography>
-            </Fragment>
+            <Typography variant="h4" align="center">
+                Home Page
+            </Typography>
+            <br></br><br></br>
 
 
             <Grid
-                className={classes.root}
                 container
-                direction = "column"
-                justify = "center"
-                alignItems="center"
-                spacing={2}
+                direction="row"
+                justify="space-evenly"
+                alignItems="flex-start"
             >
-                <Grid item>
-                    <Table>
-                        
-                    </Table>
-                </Grid>
 
                 <Paper>
-                    <Typography variant="h6" align="center">
+                      <Typography variant="h6" align="center">
                         Projects
                     </Typography>
 
                   
-                    {projects.map((item, index) => {
+                    {projects.map((item) => {
                         {backlogurl = backlogurl + item.id}
                     
                         return (
                             
-                            <Fragment key={index}>
+                            <Fragment>
                                 Project ID: {item.id}
                                 <ProjectItem projectData={item} key={item.id}
                                     editProject={editProject}
                                 />
 
-                             
                             </Fragment>
                         );
 
+                        <Button size="small" component={Link} to="/new_project">Add New Project</Button>
+                        
                     })}
-                    {checkProjects ? (
-                       <Button size="small" component={Link} to="/new_project">Add New Project</Button>
-                    ) : (
-                        ''
-                        )}
-
                     <br></br>
                     <br></br>
-
+                    
 
                 </Paper>
 

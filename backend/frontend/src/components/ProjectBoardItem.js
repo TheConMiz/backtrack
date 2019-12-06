@@ -1,15 +1,24 @@
 import React, { useState, Fragment } from 'react';
 
 import { Button, IconButton, Typography, Paper, Grid, Menu, Icon, MenuItem, TextField, Table, TableRow, TableCell, TableBody } from '@material-ui/core';
-
+import { Link } from 'react-router-dom';
+import { useLocation } from "react-router";
 
 import LeftArrow from '@material-ui/icons/ArrowBack';
 import RightArrow from '@material-ui/icons/ArrowForward';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import TaskView from './TaskView'
+
+
+
 function ProjectBoardItem(props) {
+    const [taskDialog, setTaskDialog] = useState(false);
+
 
     return (
-        <TableBody>
+        <TableBody> 
+            <TaskView openDialog={taskDialog} setDialog={setTaskDialog} />
+            
             <TableRow>
                 <TableCell>
                     <IconButton
@@ -43,20 +52,20 @@ function ProjectBoardItem(props) {
                 </TableCell>
 
                 <TableCell>
+
+
                     <IconButton
                         disableFocusRipple
                         onClick={() => {
-                            props.setStatus({
-                                
-                            })
-                            window.location.reload();
+                            setTaskDialog(true);
                         }}
-
+                        disableFocusRipple
                     >
                         <Icon>
                             <VisibilityIcon />
                         </Icon>
                     </IconButton>
+
                 </TableCell>
 
                 <TableCell>
