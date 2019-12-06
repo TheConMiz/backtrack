@@ -45,3 +45,14 @@ class ProjectView(viewsets.ModelViewSet):
 
     # def perform_create(self, serializer):
     #     serializer.save(owner=self.request.user)
+
+
+class ProjectDevelopersView(viewsets.ModelViewSet):
+
+    queryset = ProjectDevelopers.objects.all()
+
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+    serializer_class = ProjectDevelopersSerializer

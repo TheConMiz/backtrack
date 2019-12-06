@@ -2,9 +2,11 @@ import React, { Fragment, useState, useEffect } from 'react';
 
 import ProjectItem from './ProjectItem';
 
-import { Typography, Paper, Grid } from '@material-ui/core';
+import { Typography, Paper, Grid, Table } from '@material-ui/core';
 import { Button } from '@material-ui/core'; 
 import { Link } from 'react-router-dom';
+
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 
 export default function BacklogView() {
@@ -23,7 +25,7 @@ export default function BacklogView() {
             .then(response => {
 
                 if (response.status != 200) {
-                    console.log(response);
+                    console.log("Something went wrong.");
                 }
                
                 return response.json()
@@ -57,17 +59,17 @@ export default function BacklogView() {
             .then(response => {
 
                 if (response.status != 200) {
-                    console.log(response);
+                    console.log("Something went wrong.");
                 }
 
                 return response.json()
-
-                .then(data => {
-                    setProjectDevelopers(data)
-                    console.log(projectDevelopers)
-                });
-            
             })
+
+            .then(response => {
+                    // console.log(response)
+                    setProjectDevelopers(response)
+                    // console.log(projectDevelopers)
+            });
     }
 
     useEffect(() => {
@@ -77,7 +79,9 @@ export default function BacklogView() {
 
     }, []);
 
-    return (    
+    // console.log(projectDevelopers)
+
+    return (
         <Fragment>
             <Typography variant="h4" align="center">
                 Home Page
@@ -98,12 +102,12 @@ export default function BacklogView() {
                     </Typography>
 
                   
-                    {projects.map((item) => {
+                    {projects.map((item, index) => {
                         {backlogurl = backlogurl + item.id}
                     
                         return (
                             
-                            <Fragment>
+                            <Fragment key={index}>
                                 Project ID: {item.id}
                                 <ProjectItem projectData={item} key={item.id}
                                     editProject={editProject}
