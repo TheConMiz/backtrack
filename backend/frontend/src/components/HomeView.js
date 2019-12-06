@@ -11,10 +11,13 @@ export default function BacklogView() {
     var backlogurl ="/backlog_view?p=";
     
     const [projects, setProjects] = useState([]);
+
+    const [projectDevelopers, setProjectDevelopers] = useState([]);
+
     /**
-     * Function for making a GET request for the PBIs
+     * Function for getting all projects
      */
-    function getProjects() {
+    const getProjects = () => {
         fetch("api/project/")
 
             .then(response => {
@@ -32,8 +35,7 @@ export default function BacklogView() {
             });
     }
     
-    function editProject(projectdata) {
-
+    const editProject = (projectdata) => {
         fetch("api/project/" + projectdata.p_id + "/", {
             method: "PATCH",
             headers: {
@@ -49,9 +51,29 @@ export default function BacklogView() {
         
     }
 
+    const getProjectDevelopers = () => {
+        fetch("api/project_developers/")
+
+            .then(response => {
+
+                if (response.status != 200) {
+                    console.log(response);
+                }
+
+                return response.json()
+
+                .then(data => {
+                    setProjectDevelopers(data)
+                    console.log(projectDevelopers)
+                });
+            
+            })
+    }
+
     useEffect(() => {
         
         getProjects()
+        getProjectDevelopers()
 
     }, []);
 

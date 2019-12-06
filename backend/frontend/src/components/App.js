@@ -3,11 +3,9 @@ import React, { Fragment, useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router';
 
 import LoginPage from './LoginPage'
-import NewProject from './NewProject';
 import HomeView from './HomeView';
 import ProjectBoard from './ProjectBoard';
 import BacklogView from './BacklogView';
-import AddTask from './AddTask';
 import ProductBacklog from './ProductBacklog';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -19,7 +17,6 @@ export default function App(props) {
         name: "",
         email: "",
         type: 0
-
     })
 
     const getUserInfo = (token) => {
