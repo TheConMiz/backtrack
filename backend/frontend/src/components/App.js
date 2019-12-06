@@ -47,8 +47,6 @@ export default function App(props) {
                             email: response.email,
                             type: response.type
                         })
-
-                        console.log(userInfo)
                     })
                     
                 }
