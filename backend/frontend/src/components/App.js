@@ -59,16 +59,24 @@ export default function App(props) {
                 if (response.status != 200) {
                     
                     console.log("Something went Wrong")
-
+                    setIncorrectAuth(true)
                 }
 
-                return response.json()
+                else {
+                    
+                    return response.json()
+                    
+                    .then((response) => {
+                        setIsAuth(true)
+                        setIncorrectAuth(false)
+                        localStorage.setItem("myToken", response.token)
+                        getUserInfo(response.token)
+                    })
+                }
+
+                
             })
-            .then((response) => {
-                setIsAuth(true)
-                localStorage.setItem("myToken", response.token)
-                getUserInfo(response.token)
-            })
+            
     }
     
     return (
@@ -113,6 +121,7 @@ export default function App(props) {
                     <LoginPage
                         authenticateUser={authenticateUser}
                         isAuth={isAuth}
+                        incorrectAuth={incorrectAuth}
                     />
                 }
             />

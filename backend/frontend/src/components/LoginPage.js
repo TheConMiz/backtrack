@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => createStyles({
     loginBox: {
         minWidth: 250,
         maxWidth: 300,
-        minHeight: 250,
-        maxHeight: 300,
+        minHeight: 300,
+        maxHeight: 325,
         margin: "auto",
     },
     loginGrid: {
@@ -33,6 +33,7 @@ export default function LoginPage(props) {
         )
     }
 
+    console.log(props.incorrectAuth)
     return (
         <Fragment>
 
@@ -66,6 +67,12 @@ export default function LoginPage(props) {
                             <Grid item>
                                 <Typography variant="h5">
                                     Sign In
+                                </Typography>
+                            </Grid>
+
+                            <Grid item>
+                                <Typography color="error">
+                                    {props.incorrectAuth ? "Incorrect Credentials." : ""}
                                 </Typography>
                             </Grid>
 
