@@ -187,7 +187,7 @@ export default function BacklogView(props) {
                                             </TableRow>
                                         </TableHead>
 
-                                        <TableBody>
+                                        {/* <TableBody>
                                             {
                                                 projectDevelopers.map((item, index) => {
 
@@ -213,7 +213,7 @@ export default function BacklogView(props) {
                                                     
                                                 })
                                             }
-                                        </TableBody>
+                                        </TableBody> */}
                                     </Table>
                                 </Grid>
 
@@ -233,7 +233,7 @@ export default function BacklogView(props) {
                                             {
                                                 projects.map((item, index) => {
                                                     
-                                                    if (item.manager_id === props.userInfo.id) {
+                                                    if (item.owner_id === props.userInfo.id) {
                                                         return (
                                                             <TableRow key={index}>
                                                                 <TableCell>
