@@ -138,7 +138,7 @@ export default function App(props) {
                 }
             />
             
-            {/*             
+                    
 
             <Route
                 exact
@@ -154,7 +154,7 @@ export default function App(props) {
                 render={() => 
                     <AddTask/>
                 }
-            />*/}
+            />
              
         </Switch>
     );

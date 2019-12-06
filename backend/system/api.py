@@ -7,7 +7,7 @@ class PBIViewSet(viewsets.ModelViewSet):
 
     # Need to change this as we add user authentication
     permission_classes = [
-        permissions.IsAuthenticated
+        permissions.AllowAny
     ]
 
     serializer_class = PBISerializer
@@ -31,15 +31,16 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
 
 class ProjectView(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
 
     serializer_class = ProjectSerializer
 
     permission_classes = [
-        permissions.IsAuthenticated
+        permissions.AllowAny
     ]
 
-    def get_queryset(self):
-        self.request.user.projects.all
+    # def get_queryset(self):
+    #    self.request.user.projects.all
 
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+    #def perform_create(self, serializer):
+    #    serializer.save(owner=self.request.user)
