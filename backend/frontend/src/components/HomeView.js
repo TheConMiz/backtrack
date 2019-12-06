@@ -8,8 +8,23 @@ import { Link } from 'react-router-dom';
 
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles((theme) => createStyles({
+    root: {
+        minHeight: '100vh'
+    },
+
+    table: {
+        minHeight: '80vh',
+        maxHeight: '100vh',
+        minWidth: '100vh',
+        maxWidth: '100vh',
+    } 
+}));
 
 export default function BacklogView() {
+
+    const classes = useStyles();
+
     var backlogurl ="/backlog_view?p=";
     
     const [projects, setProjects] = useState([]);
@@ -83,18 +98,25 @@ export default function BacklogView() {
 
     return (
         <Fragment>
-            <Typography variant="h4" align="center">
-                Home Page
-            </Typography>
-            <br></br><br></br>
-
+            <Fragment>
+                <Typography variant="h4" align="center">
+                    Home Page
+                </Typography>
+            </Fragment>
 
             <Grid
+                className={classes.root}
                 container
-                direction="row"
-                justify="space-evenly"
-                alignItems="flex-start"
+                direction = "column"
+                justify = "center"
+                alignItems="center"
+                spacing={2}
             >
+                <Grid item>
+                    <Table>
+                        
+                    </Table>
+                </Grid>
 
                 <Paper>
                       <Typography variant="h6" align="center">
