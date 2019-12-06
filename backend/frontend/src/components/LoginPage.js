@@ -27,13 +27,14 @@ export default function LoginPage(props) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
+    props.checkUserSignedIn()
+
     if (props.isAuth) {
         return (
             <Redirect to="/"/>
         )
     }
 
-    console.log(props.incorrectAuth)
     return (
         <Fragment>
 

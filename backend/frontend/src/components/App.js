@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 
-import { Switch, Route, Redirect } from 'react-router';
+import { Switch, Route } from 'react-router';
 
 import LoginPage from './LoginPage'
 import HomeView from './HomeView';
@@ -13,14 +13,25 @@ export default function App(props) {
 
     const [isAuth, setIsAuth] = useState(false)
     const [incorrectAuth, setIncorrectAuth] = useState(false)
+
     const [userInfo, setUserInfo] = useState({
+        id: -1,
         name: "",
         email: "",
-        type: 0
+        type: -1
     })
 
+    const checkUserSignedIn = () => {
+        if (localStorage.getItem("myToken") !== null) {
+            setIsAuth(true)
+            getUserInfo(localStorage.getItem("myToken"))
+        }
+    }
+
+    
     const getUserInfo = (token) => {
         console.log(token)
+
         fetch("api/auth/user", {
             method: "GET",
             headers: {
@@ -31,68 +42,69 @@ export default function App(props) {
         })
             .then(response => {
                 if (response.status != 200) {
-                    console.log("Something went wrong")
+                    console.log("Something went wrong. getUserInfo")
                 }
 
                 else {
                     return response.json()
                     .then(response => {
-                        console.log(response)
+                        
+                        // console.log(response)
 
                         let temp = Object.assign(userInfo, {
+                            id: response.id,
                             name: response.first_name + " " + response.last_name,
                             email: response.email,
                             type: response.type
                         })
 
                         setUserInfo(temp)
-                    })
-                    
+                    })   
                 }
-                
             })  
     }
 
     const authenticateUser = (userCredentials) => {
-        fetch("api/auth/login", {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userCredentials)
-        })
+        fetch("api/auth/login",
+            {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userCredentials)
+            })
 
             .then(response => {
                 if (response.status != 200) {
-                    
+
                     console.log("Something went Wrong")
                     setIncorrectAuth(true)
-                }
 
+                }
+                
                 else {
-                    
+
                     return response.json()
-                    
-                    .then((response) => {
-                        setIsAuth(true)
-                        setIncorrectAuth(false)
-                        localStorage.setItem("myToken", response.token)
-                        getUserInfo(response.token)
-                    })
+
+                        .then((response) => {
+                            setIsAuth(true)
+                            setIncorrectAuth(false)
+                            localStorage.setItem("myToken", response.token)
+                        })
                 }
             })
-            
+        getUserInfo(localStorage.getItem("myToken"))
     }
     
     return (
         <Switch>
-
             <ProtectedRoute
                 exact
                 path="/"
                 component={HomeView}
                 isAuth={isAuth}
+                userInfo={userInfo}
             />
 
             <ProtectedRoute
@@ -124,15 +136,14 @@ export default function App(props) {
                 path="/login"
                 render={() =>
                     <LoginPage
-                        authenticateUser={authenticateUser}
+                        setIsAuth={setIsAuth}
                         isAuth={isAuth}
-                        incorrectAuth={incorrectAuth}
+                        authenticateUser={authenticateUser}
+                        checkUserSignedIn={checkUserSignedIn}
                     />
                 }
             />
             
-                    
-
             <Route
                 exact
                 path="/new_project"
