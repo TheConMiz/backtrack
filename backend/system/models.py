@@ -48,8 +48,6 @@ class PBI(models.Model):
     ## 3 - Completed
     status = models.IntegerField(default=1)
 
-
-
 class Task(models.Model):
     pbi_id = models.ForeignKey(PBI, on_delete=models.CASCADE)
     dev_id = models.ForeignKey(MultiUser, on_delete=models.CASCADE, null=True)

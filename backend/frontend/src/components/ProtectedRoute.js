@@ -12,7 +12,9 @@ export default function ProtectedRoute(props) {
                 if (props.isAuth) {
                     console.log("Authenticated")
                     return (
-                        <props.component/>
+                        <props.component
+                            userInfo={props.userInfo}
+                        />
                     )
                 }
 

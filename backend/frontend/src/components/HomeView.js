@@ -28,16 +28,14 @@ export default function BacklogView() {
             })
 
             .then(data => {
-               // console.log(data)
                 setProjects(data)
             });
     }
     
     function editProject(projectdata) {
-        // console.log("mlem")
+
         fetch("api/project/" + projectdata.p_id + "/", {
             method: "PATCH",
-
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
