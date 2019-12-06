@@ -4,7 +4,7 @@ import { Typography, Button, Card, TextField, Grid } from '@material-ui/core';
 
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
 
 const useStyles = makeStyles((theme) => createStyles({
     loginBox: {
@@ -23,6 +23,15 @@ const useStyles = makeStyles((theme) => createStyles({
 export default function LoginPage(props) {
 
     const classes = useStyles();
+
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+
+    if (props.isAuth) {
+        return (
+            <Redirect to="/"/>
+        )
+    }
 
     return (
         <Fragment>
@@ -63,6 +72,10 @@ export default function LoginPage(props) {
                             <Grid item>
                                 <TextField
                                     label="Username"
+                                    value={username}
+                                    onChange={(event) => {
+                                        setUsername(event.target.value)
+                                    }}
                                 />
                             </Grid>
                             
@@ -70,6 +83,10 @@ export default function LoginPage(props) {
                                 <TextField
                                     label="Password"
                                     type="password"
+                                    value={password}
+                                    onChange={(event) => {
+                                        setPassword(event.target.value)
+                                    }}
                                 />
                             </Grid>
 
@@ -78,9 +95,12 @@ export default function LoginPage(props) {
                             <Grid item>
                                 <Button
                                     disableFocusRipple
-                                    component={Link}
+                                    // component={Link}
                                     variant="outlined"
-                                    to="/homepage"
+                                    // to="/homepage"
+                                    onClick={() => {
+                                        props.authenticateUser({username, password})
+                                    }}
                                 >
                                     <Typography>
                                         Submit

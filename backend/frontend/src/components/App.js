@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 
-import { Switch, Route } from 'react-router';
+import { Switch, Route, Redirect } from 'react-router';
 
 import LoginPage from './LoginPage'
 import NewProject from './NewProject';
@@ -9,48 +9,121 @@ import ProjectBoard from './ProjectBoard';
 import BacklogView from './BacklogView';
 import AddTask from './AddTask';
 import ProductBacklog from './ProductBacklog';
+import ProtectedRoute from './ProtectedRoute';
 
+export default function App(props) {
 
-function App() {
+    const [isAuth, setIsAuth] = useState(false)
+    const [incorrectAuth, setIncorrectAuth] = useState(false)
+    const [userInfo, setUserInfo] = useState(
+        {
+            name: "",
+            email: "",
+            type: 0,
+        }
+    )
+
+    const getUserInfo = (token) => {
+        console.log(token)
+        fetch("api/auth/user", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            body: "Token " + token
+            
+        })
+            .then(response => {
+                if (response.status != 200) {
+                    console.log("Something went wrong")
+                }
+                return response.json()
+            })
+            .then(response => {
+                console.log(response)
+            })
+    }
+
+    const authenticateUser = (userCredentials) => {
+        fetch("api/auth/login", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userCredentials)
+        })
+
+            .then(response => {
+                if (response.status != 200) {
+                    
+                    console.log("Something went Wrong")
+
+                }
+
+                return response.json()
+            })
+            .then((response) => {
+                setIsAuth(true)
+                localStorage.setItem("myToken", response.token)
+                getUserInfo(response.token)
+            })
+    }
+    
     return (
         <Switch>
-            <Route
+
+            <ProtectedRoute
                 exact
                 path="/"
-                render={() =>
-                    <LoginPage/>
-                }
+                component={HomeView}
+                isAuth={isAuth}
             />
+
+            <ProtectedRoute
+                exact
+                path="/project_board"
+                component={ProjectBoard}
+                isAuth={isAuth}
+            />
+
+            <ProtectedRoute
+                exact
+                path="/backlog_view"
+                render={() => 
+                    <BacklogView/>
+                }
+                isAuth={isAuth}
+            />
+
+            <ProtectedRoute
+                exact
+                path="/product_backlog"
+                render={() => 
+                    <ProductBacklog/>
+                }
+                isAuth={isAuth}
+            /> 
             
             <Route
                 exact
-                path="/homepage"
-                render={() => 
-                    <HomeView/>
+                path="/login"
+                render={() =>
+                    <LoginPage
+                        authenticateUser={authenticateUser}
+                        isAuth={isAuth}
+                    />
                 }
-            />                   
+            />
+            
+            {/*             
 
             <Route
                 exact
                 path="/new_project"
                 render={() => 
                     <NewProject/>
-                }
-            />
-            
-            <Route
-                exact
-                path="/project_board"
-                render={() => 
-                    <ProjectBoard/>
-                }
-            />
-
-            <Route
-                exact
-                path="/backlog_view"
-                render={() => 
-                    <BacklogView/>
                 }
             />
 
@@ -60,18 +133,8 @@ function App() {
                 render={() => 
                     <AddTask/>
                 }
-            />
-
-            <Route
-                exact
-                path="/product_backlog"
-                render={() => 
-                    <ProductBacklog/>
-                }
-            />
+            />*/}
              
         </Switch>
     );
 }
-
-export default App;
