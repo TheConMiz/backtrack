@@ -29,9 +29,9 @@ export default function BacklogView(props) {
     const [projectDevelopers, setProjectDevelopers] = useState([]);
 
     /**
-     * Function for getting all projects
+     * Function for making a GET request for the PBIs
      */
-    const getProjects = () => {
+    function getProjects() {
         fetch("api/project/")
 
             .then(response => {
@@ -52,6 +52,7 @@ export default function BacklogView(props) {
     const editProject = (projectdata) => {
         fetch("api/project/" + projectdata.p_id + "/", {
             method: "PATCH",
+
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
@@ -98,7 +99,6 @@ export default function BacklogView(props) {
     return (
         <Grid>
             <Grid
-                className={classes.root}
                 container
                 direction="column"
                 justify="flex-start"

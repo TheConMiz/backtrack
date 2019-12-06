@@ -40,7 +40,6 @@ class PBI(models.Model):
     priority = models.IntegerField(default=0)
 
     # Status Key
-    ## 0 - Not in Sprint
     ## 1 - To-Do
     ## 2 - In Progress
     ## 3 - Completed
@@ -63,3 +62,6 @@ class Task(models.Model):
 class ProjectDevelopers(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
     dev_id = models.ForeignKey(MultiUser, on_delete=models.CASCADE, null=True)
+class PBIsInSprint(models.Model):
+    sprint_id = models.ForeignKey(Sprint, on_delete=models.CASCADE, default=0)
+    pbi_id = models.ForeignKey(PBI, on_delete=models.CASCADE)

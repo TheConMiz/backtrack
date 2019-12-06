@@ -8,6 +8,7 @@ import ProjectBoard from './ProjectBoard';
 import BacklogView from './BacklogView';
 import ProductBacklog from './ProductBacklog';
 import ProtectedRoute from './ProtectedRoute';
+import TaskView from './TaskView';
 
 export default function App(props) {
 
@@ -143,6 +144,14 @@ export default function App(props) {
                     />
                 }
             />
+
+            <ProtectedRoute
+                exact
+                path="/task_view"
+                component={TaskView}
+                isAuth={isAuth}
+                userInfo={userInfo}
+            /> 
             
             <Route
                 exact

@@ -23,3 +23,8 @@ class ProjectDevelopersSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectDevelopers
         fields = '__all__'
+
+class PBIsInSprintSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PBIsInSprint
+        fields = '__all__'
