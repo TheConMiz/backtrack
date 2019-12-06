@@ -29,8 +29,12 @@ export default function BacklogView() {
     
     const [projects, setProjects] = useState([]);
 
-    const [projectDevelopers, setProjectDevelopers] = useState([]);
+export default function BacklogView() {
+    var backlogurl = "/backlog_view?p=";
+    var checkProjects =false;
 
+    const [projects, setProjects] = useState([]);
+    
     /**
      * Function for getting all projects
      */
@@ -42,17 +46,19 @@ export default function BacklogView() {
                 if (response.status != 200) {
                     console.log("Something went wrong.");
                 }
-               
+
                 return response.json()
-                
+
             })
 
             .then(data => {
+                // console.log(data)
                 setProjects(data)
             });
     }
-    
-    const editProject = (projectdata) => {
+
+    function editProject(projectdata) {
+        // console.log("mlem")
         fetch("api/project/" + projectdata.p_id + "/", {
             method: "PATCH",
             headers: {
@@ -61,11 +67,11 @@ export default function BacklogView() {
             },
             body: JSON.stringify(projectdata)
         })
-            
-            .then(response=> response)
+
+            .then(response => response)
             .then(response => console.log(response))
             .then(response => getProjects())
-        
+
     }
 
     const getProjectDevelopers = () => {
@@ -88,7 +94,7 @@ export default function BacklogView() {
     }
 
     useEffect(() => {
-        
+
         getProjects()
         getProjectDevelopers()
 
@@ -103,6 +109,7 @@ export default function BacklogView() {
                     Home Page
                 </Typography>
             </Fragment>
+
 
             <Grid
                 className={classes.root}
@@ -119,7 +126,7 @@ export default function BacklogView() {
                 </Grid>
 
                 <Paper>
-                      <Typography variant="h6" align="center">
+                    <Typography variant="h6" align="center">
                         Projects
                     </Typography>
 
@@ -135,16 +142,20 @@ export default function BacklogView() {
                                     editProject={editProject}
                                 />
 
-                    <Button size="small" component={Link} to="/new_project">Add New Project</Button>
-
-                     
+                             
                             </Fragment>
                         );
-                        
+
                     })}
+                    {checkProjects ? (
+                       <Button size="small" component={Link} to="/new_project">Add New Project</Button>
+                    ) : (
+                        ''
+                        )}
+
                     <br></br>
                     <br></br>
-                    
+
 
                 </Paper>
 

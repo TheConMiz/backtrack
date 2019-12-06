@@ -31,6 +31,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
 
 class ProjectView(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
 
     queryset = Project.objects.all()
 
@@ -38,10 +39,8 @@ class ProjectView(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
 
-    serializer_class = ProjectSerializer
-
     # def get_queryset(self):
-    #     self.request.user.projects.all
+    #    self.request.user.projects.all
 
     # def perform_create(self, serializer):
     #     serializer.save(owner=self.request.user)

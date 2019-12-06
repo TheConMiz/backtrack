@@ -130,7 +130,25 @@ export default function App(props) {
                     />
                 }
             />
-                         
+            
+                    
+
+            <Route
+                exact
+                path="/new_project"
+                render={() => 
+                    <NewProject/>
+                }
+            />
+
+            <Route
+                exact
+                path="/task"
+                render={() => 
+                    <AddTask/>
+                }
+            />
+             
         </Switch>
     );
 }

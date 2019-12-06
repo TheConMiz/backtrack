@@ -7,7 +7,8 @@ def index(request):
     'Subject here',
     'Here is the message.',
     'jcalamansi@gmail.com',
-    ['daresa3949@mail-now.top'],
+    ['bexeh62773@mail-help.net'],
     fail_silently=False,
     )   
     return render(request, 'send/index.html')
+

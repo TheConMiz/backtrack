@@ -4,19 +4,37 @@ import { Card, CardContent, Typography, IconButton, Icon, Grid, TextField, Butto
 
 import Edit from '@material-ui/icons/Edit'
 import { Link } from 'react-router-dom'
-
+import AddMemberDialog from './AddMemberDialog';
 import RightArrow from '@material-ui/icons/ArrowRight';
 import Delete from '@material-ui/icons/Delete';
 import { BrowserRouter, Route } from 'react-router-dom'
 function ProjectItem(props) {
     console.log(props.projectData)
     const [editable, setEditable] = useState(false);
+    const [currentId, setId] = useState(props.projectData.id);
     const [currentName, setName] = useState(props.projectData.name);
     const [currentDesc, setDesc] = useState(props.projectData.desc);
     const [currentManager, setManager] = useState(props.projectData.manager_id);
+    const [addMemberDialog, setMemberDialog] = useState(false);
+
+    function addMember(email) {
+        fetch("send/")
+
+            .then(response => {
+
+                if (response.status != 200) {
+                    console.log("Something went wrong!");
+                }
+
+                return response.json()
+            })
+
+           
+    }
 
     return (
         <Fragment>
+            <AddMemberDialog openDialog={addMemberDialog} setDialog={setMemberDialog} addMember={addMember}/>
 
             <Card>
 
@@ -60,6 +78,18 @@ function ProjectItem(props) {
                                 setManager(event.target.value)
                             }}
                         />
+
+                    </Grid>
+                    <Grid>
+
+                        <Button
+                            onClick={() => {
+                                setMemberDialog(true);
+                            }}
+                            disableFocusRipple
+                        >
+                            Add Member
+                        </Button>
                     </Grid>
                     <Grid container direction="row">
 
@@ -97,7 +127,7 @@ function ProjectItem(props) {
                         </Grid>
                         <br></br>
 
-                        <Button size="small" component={Link}  to="/project_board">Sprint Board</Button>
+                        <Button size="small" component={Link} to="/project_board">Sprint Board</Button>
                         <Button size="small" component={Link} to="/product_backlog">Product Backlog</Button> <br></br>
 
                     </Grid>
