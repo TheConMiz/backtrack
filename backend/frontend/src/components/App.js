@@ -26,23 +26,35 @@ export default function App(props) {
     const getUserInfo = (token) => {
         console.log(token)
         fetch("api/auth/user", {
-            method: "POST",
+            method: "GET",
             headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
+                "Authorization": "Token " + token   
             },
-            body: "Token " + token
+            
             
         })
             .then(response => {
                 if (response.status != 200) {
                     console.log("Something went wrong")
                 }
-                return response.json()
+
+                else {
+                    return response.json()
+                    .then(response => {
+                        console.log(response)
+                        setUserInfo({
+                            name: "",
+                            email: response.email,
+                            type: response.type
+                        })
+
+                        console.log(userInfo)
+                    })
+                    
+                }
+                
             })
-            .then(response => {
-                console.log(response)
-            })
+            
     }
 
     const authenticateUser = (userCredentials) => {
