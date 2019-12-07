@@ -105,7 +105,7 @@ export default function ProjectBoard() {
 
     return (
         <Fragment>
-            <IconButton size="large" component={Link} to="/homepage">
+            <IconButton size="large" component={Link} to="/">
                 <Icon><HomeIcon /></Icon>
             </IconButton>
             <br></br>

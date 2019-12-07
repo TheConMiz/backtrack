@@ -69,8 +69,28 @@ function AddMemberDialog(props) {
                             {   
                                 
                                 props.users.filter(item => item.type === 1 && item.id !== props.userInfo.id).map((item, index) => {
-                                    // If the item does not exist in the projectDev list, show them
-                                    console.log(props.projectDevelopers, "the error")
+
+                                    props.projectDevelopers.filter(i => i.project_id != props.projectData.id).map((item2, index2) => {
+                                        return (
+                                            <TableRow
+                                                key={index2}
+                                            >
+                                                <TableCell padding="checkbox">
+                                                    <Checkbox
+                                                        
+                                                        onChange={() => {
+                                                            setSelectedUsers([...selectedUsers, item2.id])
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell padding="checkbox">
+                                                    <Typography>
+                                                        {item2.first_name + " " + item2.last_name}
+                                                    </Typography>
+                                                </TableCell>
+                                            </TableRow>   
+                                        )
+                                    })
                                     
                                     if (props.projectDevelopers.length !== 0) {
                                         if (props.projectDevelopers.find(

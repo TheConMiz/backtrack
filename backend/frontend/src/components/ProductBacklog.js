@@ -158,7 +158,7 @@ export default function SprintBacklog() {
                         <Icon><AddCircleOutlineIcon /></Icon>
                     </IconButton>
 
-                    <IconButton size="small" component={Link} to="/homepage">
+                    <IconButton size="small" component={Link} to="/">
                         <Icon><HomeIcon /></Icon>
                     </IconButton> <br></br>
 
