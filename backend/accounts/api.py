@@ -45,3 +45,14 @@ class GetUserAPI(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class GetUsersAPI(viewsets.ModelViewSet):
+
+    queryset = MultiUser.objects.all()
+
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+    serializer_class = MultiUserSerializer

@@ -26,6 +26,8 @@ export default function BacklogView(props) {
     
     const [projects, setProjects] = useState([]);
 
+    const [users, setUsers] = useState([]);
+
     const [projectDevelopers, setProjectDevelopers] = useState([]);
 
     /**
@@ -50,7 +52,7 @@ export default function BacklogView(props) {
     }
     
     const editProject = (projectdata) => {
-        fetch("api/project/" + projectdata.p_id + "/", {
+        fetch("api/project/" + projectdata.id + "/", {
             method: "PATCH",
 
             headers: {
@@ -78,22 +80,33 @@ export default function BacklogView(props) {
             })
 
             .then(response => {
-                // console.log(response)
-                
-                let devContribs = response.filter(item => item.dev_id === props.userInfo.id)
-                // console.log(devContribs)
-                setProjectDevelopers(devContribs)
+                setProjectDevelopers(response)
             });
     }
 
-    
+    const getUsers = () => {
+        fetch("api/get_users/")
+
+            .then(response => {
+
+                if (response.status != 200) {
+                    console.log("Something went wrong. getUsers");
+                }
+
+                return response.json()
+
+            })
+
+            .then(data => {
+                setUsers(data)
+                console.log(data)
+            });
+    }
 
     useEffect(() => {
-        
         getProjects()
         getProjectDevelopers()
-        
-
+        getUsers()
     }, [props.userInfo]);
 
     return (
@@ -115,6 +128,14 @@ export default function BacklogView(props) {
                     </Fragment>
                 </Grid>
 
+                <Grid item>
+                    <Fragment>
+                        <Typography variant="h6" align="center">
+                            Welcome, {props.userInfo.name}
+                        </Typography>
+                    </Fragment>
+                </Grid>
+                
                 <Grid
                     item
                     container
@@ -130,7 +151,7 @@ export default function BacklogView(props) {
                                 <Table>
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>
+                                            <TableCell align="center">
                                                 <Typography variant="h5">
                                                     Project(s) You Manage
                                                 </Typography>
@@ -140,28 +161,35 @@ export default function BacklogView(props) {
                                     </TableHead>
 
                                     <TableBody>
+
                                         {
-                                            projects.map((item, index) => {
+                                            projects.filter(item => item.manager_id === props.userInfo.id).length === 0 ? 
+                                                <TableRow>
+                                                    <TableCell>
+                                                        <Typography>You currently have no projects to manage.</Typography>
+                                                    </TableCell>
+                                                </TableRow>
                                                 
-                                                if (item.manager_id === props.userInfo.id) {
+                                                : 
+                                                
+                                                projects.filter(item => item.manager_id === props.userInfo.id).map((item, index) => {
                                                     return (
                                                         <TableRow key={index}>
                                                             <TableCell>
                                                                 <Fragment>
-                                                                    <ProjectItem projectData={item} key={item.id}
+                                                                    <ProjectItem
+                                                                        projectData={item}
                                                                         editProject={editProject}
+                                                                        userInfo={props.userInfo}
+                                                                        users={users}
+                                                                        // projectDevelopers={projectDevelopers}
                                                                     />
-
-                                                                    <Button size="small" component={Link} to="/new_project">
-                                                                        Add New Project
-                                                                    </Button>
                                                                 </Fragment>
                                                             </TableCell>
                                                             
                                                         </TableRow>
                                                     );
-                                                }
-                                            })
+                                                })
                                         }
                                     </TableBody>
                                 </Table>
@@ -174,98 +202,132 @@ export default function BacklogView(props) {
 
                     {
                         props.userInfo.type === 1 ? 
-                            <Fragment>
+                            
+                            <Grid item>
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="center">
+                                                <Typography variant="h5">
+                                                    Project(s) You Own
+                                                </Typography>
+                                            </TableCell>
+                                            
+                                        </TableRow>
+                                    </TableHead>
 
-                                <Grid item>
-                                    <Table>
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>
-                                                    <Typography variant="h5">
-                                                        Project(s) You Own
-                                                    </Typography>
-                                                </TableCell>
-                                                
-                                            </TableRow>
-                                        </TableHead>
+                                    <TableBody>
+                                        {
 
-                                        {/* <TableBody>
-                                            {
-                                                projectDevelopers.map((item, index) => {
+                                            projects.filter(item => item.owner_id === props.userInfo.id).length === 0 ? 
+                                                <TableRow>
+                                                    <TableCell>
+                                                        <Button
+                                                            disableFocusRipple
+                                                        >
+                                                            <Typography>
+                                                                Create a New Project
+                                                            </Typography>
+                                                        </Button>
+                                                    </TableCell>
+                                                </TableRow>
 
-                                                    let tempProject = projects.filter(project => project.id === item.project_id)
+                                                :
 
-                                                    console.log(tempProject)
-                                                    
+                                                projects.filter(item => item.owner_id === props.userInfo.id).map((item, index) => {
                                                     return (
-                                                        <TableRow key={index}>
+                                                        <TableRow
+                                                            key={index}
+                                                        >
                                                             <TableCell>
                                                                 <Fragment>
-                                                                    <ProjectItem projectData={tempProject[0]} key={tempProject[0].id}
+                                                                    <ProjectItem
+                                                                        projectData={item}
                                                                         editProject={editProject}
-                                                                    />
-
-                                                                    <Button size="small" component={Link} to="/new_project">
-                                                                        Add New Project
-                                                                    </Button>
+                                                                        userInfo={props.userInfo}
+                                                                        users={users}
+                                                                        projectDevelopers={projectDevelopers}
+                                                                        getProjectDevelopers={getProjectDevelopers}
+                                                                    />   
                                                                 </Fragment>
                                                             </TableCell>
                                                         </TableRow>
-                                                    );
-                                                    
+                                                    )
                                                 })
-                                            }
-                                        </TableBody> */}
-                                    </Table>
-                                </Grid>
-
-                                <Grid item>
-                                    <Table>
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>
-                                                    <Typography variant="h5">
-                                                        Project(s) You Contribute To
-                                                    </Typography>
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableHead>
-
-                                        <TableBody>
-                                            {
-                                                projects.map((item, index) => {
-                                                    
-                                                    if (item.owner_id === props.userInfo.id) {
-                                                        return (
-                                                            <TableRow key={index}>
-                                                                <TableCell>
-                                                                    <Fragment>
-                                                                        <ProjectItem projectData={item} key={item.id}
-                                                                            editProject={editProject}
-                                                                        />
-
-                                                                        <Button size="small" component={Link} to="/new_project">
-                                                                            Add New Project
-                                                                        </Button>
-                                                                    </Fragment>
-                                                                </TableCell>
-
-                                                            </TableRow>
-                                                        );
-                                                    }
-                                                })
-                                            }
-                                        </TableBody>
-                                    </Table>
-                                </Grid>
-                            </Fragment>
+                                        }
+                                    </TableBody>    
+                                </Table>
+                            </Grid>
                             
-                        :
-                            <Fragment />
-                    
+                            :
+
+                            <Fragment/>
+                            
                     }
-                </Grid>
-                
+
+                    {
+                        props.userInfo.type === 1 ? 
+
+                            <Grid item>
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="center">
+                                                <Typography variant="h5">
+                                                    Project(s) You Contribute To
+                                                </Typography>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableHead>
+
+                                    <TableBody>
+                                        {
+                                            projectDevelopers.filter(item => item.dev_id === props.userInfo.id).length === 0 ? 
+                                                <TableRow>
+                                                    <TableCell>
+                                                        <Typography>
+                                                            You have not been invited to work on any projects.
+                                                        </Typography>
+                                                    </TableCell>
+                                                </TableRow>
+                                                :
+
+                                                <Fragment>
+                                                    {
+                                                        projects.map((item, index) => {
+                                                            if (projectDevelopers.filter(item => item.dev_id === props.userInfo.id).map(item => item.project_id).includes(item.id)) {
+                                                                return (
+                                                                    <TableRow
+                                                                        key={index}
+                                                                    >
+                                                                        <TableCell>
+                                                                            <ProjectItem
+                                                                                projectData={item}
+                                                                                editProject={editProject}
+                                                                                userInfo={props.userInfo}
+                                                                                viewOnly={true}
+                                                                                users={users}
+                                                                                projectDevelopers={projectDevelopers}
+                                                                            />
+                                                                        </TableCell>
+                                                                    </TableRow>
+                                                                );
+                                                            }
+                                                        })
+                                                    }
+                                                    
+                                                </Fragment>
+                                        }
+                                    </TableBody>
+                                </Table>
+                            </Grid>
+                            
+                            :
+                            
+                            <Fragment />
+                    }
+
+                </Grid>                
             </Grid>
         </Grid>
     );
