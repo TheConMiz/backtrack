@@ -37,7 +37,7 @@ export default function BacklogView(props) {
             .then(response => {
 
                 if (response.status != 200) {
-                    console.log("Something went wrong. getProject");
+                    console.log("Something went wrong. getProjects");
                 }
                
                 return response.json()
@@ -97,7 +97,9 @@ export default function BacklogView(props) {
     }, [props.userInfo]);
 
     return (
+        
         <Grid>
+            
             <Grid
                 container
                 direction="column"

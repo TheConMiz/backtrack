@@ -47,7 +47,7 @@ class PBI(models.Model):
 
 class Task(models.Model):
     pbi_id = models.ForeignKey(PBI, on_delete=models.CASCADE)
-    dev_id = models.ForeignKey(MultiUser, on_delete=models.CASCADE, null=True)
+    owner_id = models.ForeignKey(MultiUser, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=30)
     desc = models.CharField(max_length=100)
     priority = models.IntegerField(default=0)
@@ -62,6 +62,7 @@ class Task(models.Model):
 class ProjectDevelopers(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
     dev_id = models.ForeignKey(MultiUser, on_delete=models.CASCADE, null=True)
+    
 class PBIsInSprint(models.Model):
     sprint_id = models.ForeignKey(Sprint, on_delete=models.CASCADE, default=0)
     pbi_id = models.ForeignKey(PBI, on_delete=models.CASCADE)
