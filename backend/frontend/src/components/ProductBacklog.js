@@ -100,9 +100,8 @@ export default function SprintBacklog() {
 
     return (
         <Fragment>
+            
             <BacklogDialog openDialog={pbiDialog} setDialog={setPBIDialog} addPBI={addPBI} />
-
-
             <Typography variant="h4" align="center">
                 Product Backlog
             </Typography>

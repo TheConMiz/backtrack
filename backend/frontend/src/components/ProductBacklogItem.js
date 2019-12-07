@@ -142,7 +142,7 @@ function ProductBacklogItem(props) {
                     </IconButton>
                 </TableCell>
                 <TableCell align="center">
-                    <IconButton size="small" component={Link} to="/backlog_view" onClick={() => {
+                    <IconButton size="small" onClick={() => {
                         moveToSprint({
                             pbi_id: currentId,
                             sprint_id: 1

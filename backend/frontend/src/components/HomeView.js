@@ -223,8 +223,9 @@ export default function BacklogView(props) {
                                                 <TableRow>
                                                     <TableCell>
                                                         <Button
-                                                            disableFocusRipple
                                                             
+                                                            disableFocusRipple
+                                                            disabled
                                                         >
                                                             <Typography>
                                                                 Create a New Project
