@@ -69,27 +69,51 @@ function AddMemberDialog(props) {
                             {   
                                 
                                 props.users.filter(item => item.type === 1 && item.id !== props.userInfo.id).map((item, index) => {
-                                  
-                                    return (
-                                        <TableRow
-                                            key={index}
-                                        >
-                                            <TableCell padding="checkbox">
-                                                <Checkbox
-                                                    
-                                                    onChange={() => {
-                                                        setSelectedUsers([...selectedUsers, item.id])
-                                                    }}
-                                                />
-                                            </TableCell>
-                                            <TableCell padding="checkbox">
-                                                <Typography>
-                                                    {item.first_name + " " + item.last_name}
-                                                </Typography>
-                                            </TableCell>
-                                        </TableRow>
-                                    )
-                                })
+                                    // If the item does not exist in the projectDev list, show them
+                                    console.log(props.projectDevelopers, "the error")
+                                    
+                                    if (props.projectDevelopers.length !== 0) {
+                                        if (props.projectDevelopers.find(
+                                        
+                                            item => item !==
+                                                {
+                                                    project_id: props.projectData.id,
+                                                    dev_id: item.id
+                                                }
+                                        
+                                        ).length === 0)
+                                        {
+                                            return (
+                                                <TableRow
+                                                    key={index}
+                                                >
+                                                    <TableCell padding="checkbox">
+                                                        <Checkbox
+                                                            
+                                                            onChange={() => {
+                                                                setSelectedUsers([...selectedUsers, item.id])
+                                                            }}
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell padding="checkbox">
+                                                        <Typography>
+                                                            {item.first_name + " " + item.last_name}
+                                                        </Typography>
+                                                    </TableCell>
+                                                </TableRow>
+                                            )
+                                        }
+                                    }
+
+                                    else {
+                                        return (
+                                            <TableRow>
+                                                <TableCell></TableCell>
+                                            </TableRow>
+                                        )
+                                    }
+                                    }
+                                )
                             }
                         </TableBody>
                     </Table>
